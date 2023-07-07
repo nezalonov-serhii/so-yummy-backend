@@ -1,5 +1,5 @@
 const HttpError = require("./HttpError");
-const ctrlWrapper = require("../helpers/ctrlWrapper");
+const ctrlWrapper = require("./ctrlWrapper");
 const handleMongooseError = require("./handleMongooseError");
 const sendEmail = require("./sendEmail");
 
