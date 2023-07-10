@@ -37,9 +37,13 @@ const recipeSchema = new Schema({
   isLikedBy: [
     {
       type: Schema.Types.ObjectId,
-      ref: "user",
+      ref: "users",
     },
   ],
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "users",
+  },
   ingredients: [
     {
       id: {

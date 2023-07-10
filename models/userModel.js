@@ -28,6 +28,12 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  ownRecipes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "recipes",
+    },
+  ],
   token: {
     type: String,
     default: "",
