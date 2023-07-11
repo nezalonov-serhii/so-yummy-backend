@@ -37,12 +37,12 @@ const recipeSchema = new Schema({
   isLikedBy: [
     {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: "user",
     },
   ],
   owner: {
     type: Schema.Types.ObjectId,
-    ref: "users",
+    ref: "user",
   },
   ingredients: [
     {
@@ -58,4 +58,4 @@ const recipeSchema = new Schema({
   ],
 });
 
-module.exports = model("recipe", recipeSchema);
+module.exports = model("recipes", recipeSchema);
