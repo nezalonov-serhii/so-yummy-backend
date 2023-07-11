@@ -14,7 +14,7 @@ const ingredientList = async (req, res, next) => {
 }
 
 const findRecipesByIngredient = async (req, res, next) => {
-    const {query} = req.params;
+    const {query} = req.body;
     
     const searchedIngredients = await Ingredient.find({
       name: { $regex: query, $options: "i" },
