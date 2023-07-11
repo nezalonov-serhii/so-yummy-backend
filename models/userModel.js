@@ -28,6 +28,10 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  favorites: {
+      type: Array,
+      default: [],
+    },
   ownRecipes: [
     {
       type: Schema.Types.ObjectId,
