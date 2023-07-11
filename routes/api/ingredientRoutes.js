@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.use(authenticate);
 router.get('/list', ingredientController.ingredientList);
-router.get("/:query", ingredientController.findRecipesByIngredient);
+router.get("/", ingredientController.findRecipesByIngredient);
 
 module.exports = router;
