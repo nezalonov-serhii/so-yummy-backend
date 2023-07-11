@@ -1,11 +1,9 @@
 const Ingredient = require("../models/ingredientModel");
 const Recipe = require("../models/recipeModel");
 const { ctrlWrapper } = require("../helpers");
-// const { default: mongoose } = require("mongoose");
-const { Types } = require("mongoose");
-
 
 const ingredientList = async (req, res, next) => {
+
       const result = await Ingredient.find();
       res.status(200).json({
         code: 200,
@@ -16,19 +14,30 @@ const ingredientList = async (req, res, next) => {
 }
 
 const findRecipesByIngredient = async (req, res, next) => {
-    const ingredientID = '640c2dd963a319ea671e365c';
-    // const ObjectId = new mongoose.Types.ObjectId;
-    const ObjectId = Types.ObjectId;
+    const {query} = req.params;
+    
+    const searchedIngredients = await Ingredient.find({
+      name: { $regex: query, $options: "i" },
+    });
+      if (searchedIngredients.length === 0) {
+        throw HttpError(404, "ingredient not found");
+      }
 
-    // ObjectId.createFromHexString(id);
+    const ids = searchedIngredients.map((ingredient) => ingredient.id);
 
     const result = await Recipe.find({
-      ingredients: {
-        $elemMatch: {
-          id: ObjectId.createFromHexString("640c2dd963a319ea671e365c"),
-        },
+        ingredients: {
+            $elemMatch: {
+                id: {
+                    $in: [...ids],
+                }
+            },
       },
     });
+          if (result.length === 0) {
+            throw HttpError(404, `Recipe with ingredient ${query} is not found`);
+          }
+
           res.status(200).json({
             code: 200,
             message: "Success",
