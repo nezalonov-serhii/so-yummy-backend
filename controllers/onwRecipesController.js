@@ -1,13 +1,22 @@
 const Recipe = require("../models/recipeModel");
 const User = require("../models/userModel");
+const Ingredients = require("../models/ingredientsModel");
 const { ctrlWrapper } = require("../helpers/index");
 
 const getOwnRecipes = async (req, res, next) => {
   const { _id } = req.user;
 
-  const user = await User.findById(_id);
-  if (user.ownRecipes.length) {
-    const result = user.ownRecipes;
+  const user = await User.find({ _id }).populate({
+    path: "ownRecipes",
+    populate: {
+      path: "_id",
+      model: Recipe,
+      populate: [{ path: "ingredients.id", model: Ingredients }]
+    },
+  });
+
+  if (user) {
+    const result = user;
     res.status(200).json({
       data: result,
     });
@@ -21,17 +30,16 @@ const getOwnRecipes = async (req, res, next) => {
 const postOwnRecipe = async (req, res, next) => {
   const { _id } = req.user;
   const recipe = req.body;
+  console.log("recipe", recipe);
   const newRecipe = await Recipe.create({ ...recipe, owner: _id });
-  const user = await User.findByIdAndUpdate(
-    _id,
-    {
-      $push: { ownRecipes: {...newRecipe} },
-    }
-  );
+  console.log("new recipe", newRecipe);
+  const user = await User.findByIdAndUpdate(_id, {
+    $push: { ownRecipes: { ...newRecipe } },
+  });
   res.status(200).json({
     message: `Recipe ${newRecipe.title} added`,
-      data: user,
-    recipe: newRecipe
+
+    recipe: newRecipe,
   });
 };
 const deleteOwnRecipe = async (req, res, next) => {};
@@ -40,3 +48,4 @@ module.exports = {
   postOwnRecipe: ctrlWrapper(postOwnRecipe),
   deleteOwnRecipe: ctrlWrapper(deleteOwnRecipe),
 };
+

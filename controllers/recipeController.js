@@ -1,4 +1,5 @@
 const Recipe = require("../models/recipeModel");
+const Ingredients = require("../models/ingredientsModel");
 const { ctrlWrapper } = require("../helpers/index");
 
 const getAllRecipes = async (req, res, next) => {
@@ -45,7 +46,8 @@ const mainPageRecipes = async (req, res, next) => {
       $group: {
         _id: "$category",
         mainPage: {
-          $push: {
+            $push: {
+              id: "$_id",
             title: "$title",
             thumb: "$thumb",
             preview: "$preview",
@@ -65,7 +67,9 @@ const mainPageRecipes = async (req, res, next) => {
 const getRecipeByCategory = async (req, res, next) => {
   const { category } = req.params;
 
-  const result = await Recipe.find({ category }).limit(8);
+  const result = await Recipe.find({ category })
+    .limit(8)
+    .populate("ingredients");
   if (!result.length) {
     res.status(404).json({
       code: 404,
@@ -81,16 +85,19 @@ const getRecipeByCategory = async (req, res, next) => {
 };
 
 const getRecipeById = async (req, res, next) => {
-    const { id } = req.params;
-    console.log('category: id', id)
-  const result = await Recipe.findById(id);
-    if (!result) {
-      res.status(404).json({
-        code: 404,
-        message: "No such recipe found",
-      });
-      return;
-    }
+  const { id } = req.params;
+  console.log("category: id", id);
+  const result = await Recipe.findById(id).populate({
+    path: "ingredients",
+    populate: { path: "id", model: Ingredients },
+  });
+  if (!result) {
+    res.status(404).json({
+      code: 404,
+      message: "No such recipe found",
+    });
+    return;
+  }
   res.status(200).json({
     code: 200,
     message: "Success",

@@ -34,8 +34,10 @@ const userSchema = new Schema({
     },
   ownRecipes: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "recipes",
+      id: {
+        type: Schema.Types.ObjectId,
+        ref: "recipes"
+      },
     },
   ],
   token: {
