@@ -9,7 +9,7 @@ const jimp = require("jimp");
 const { SECRET_KEY } = process.env;
 
 const { ctrlWrapper } = require("../helpers/index");
-
+const {HttpError} = require('../helpers')
 const storeImage = path.resolve("public", "avatars");
 const { uploadImage, updateLoadedImage } = require("../helpers/cloudinary");
 
