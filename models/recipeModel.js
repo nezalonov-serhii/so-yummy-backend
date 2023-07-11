@@ -23,6 +23,9 @@ const recipeSchema = new Schema({
   thumb: {
     type: String,
   },
+  imgPiblicId: {
+    type: String
+  },
   preview: {
     type: String,
   },
