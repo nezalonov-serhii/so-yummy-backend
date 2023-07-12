@@ -30,7 +30,7 @@ const { id } = req.params;
         { new: true }
     );
 
-    res.status(201).res.json({
+    res.status(201).json({
         message: `Recipe ${favoriteRecipe.title} is added to favorite`, 
         recipe: favoriteRecipe,
     });
@@ -53,17 +53,16 @@ const getFavoriteRecipes = async (req, res, next) => {
         throw HttpError(404, 'Recipes not found')
     }
 
-        res.status(200).res.json(favoriteRecipes);
+        res.status(200).json(favoriteRecipes);
 
 };
  
 
-const removeFavoriteRecipe = async (req, res, next) => { }
 
 module.exports = {
     addRecepiesToFavorite: ctrlWrapper(addRecepiesToFavorite),
     getFavoriteRecipes: ctrlWrapper(getFavoriteRecipes),
-    removeFavoriteRecipe: ctrlWrapper(removeFavoriteRecipe)
+    
 };
 
 

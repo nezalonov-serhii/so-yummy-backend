@@ -6,7 +6,7 @@ const favoriteRecepiesController = require('../../controllers/favoriteRecipesCon
 router.use(authenticate)
 router.post('/:id', favoriteRecepiesController.addRecepiesToFavorite)
 router.get('/', favoriteRecepiesController.getFavoriteRecipes)
-router.delete('/:id', favoriteRecepiesController.removeFavoriteRecipe)
+
 
 
 module.exports = router;
