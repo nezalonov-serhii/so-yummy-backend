@@ -30,12 +30,40 @@ const { id } = req.params;
         { new: true }
     );
 
-    res.json({
+    res.status(201).res.json({
         message: `Recipe ${favoriteRecipe.title} is added to favorite`, 
         recipe: favoriteRecipe,
     });
 }
  
-module.exports = {
-addRecepiesToFavorite: ctrlWrapper(addRecepiesToFavorite)
+const getFavoriteRecipes = async (req, res, next) => {
+    const { _id } = req.user;
+
+    const user = await User.findOne({ _id });
+
+    if (!user) {
+        throw HttpError(404, 'User not found');
+    };
+
+    const favoriteRecipes = await Recipe.find({
+        _id: { $in: user.favorites }
+    });
+
+    if (!favoriteRecipes) {
+        throw HttpError(404, 'Recipes not found')
+    }
+
+        res.status(200).res.json(favoriteRecipes);
+
 };
+ 
+
+const removeFavoriteRecipe = async (req, res, next) => { }
+
+module.exports = {
+    addRecepiesToFavorite: ctrlWrapper(addRecepiesToFavorite),
+    getFavoriteRecipes: ctrlWrapper(getFavoriteRecipes),
+    removeFavoriteRecipe: ctrlWrapper(removeFavoriteRecipe)
+};
+
+
