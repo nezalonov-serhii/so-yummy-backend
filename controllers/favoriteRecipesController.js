@@ -30,7 +30,7 @@ const { id } = req.params;
         { new: true }
     );
 
-    res.json({
+    res.status(201).res.json({
         message: `Recipe ${favoriteRecipe.title} is added to favorite`, 
         recipe: favoriteRecipe,
     });
@@ -53,7 +53,7 @@ const getFavoriteRecipes = async (req, res, next) => {
         throw HttpError(404, 'Recipes not found')
     }
 
-    res.json(favoriteRecipes);
+        res.status(200).res.json(favoriteRecipes);
 
 };
  
