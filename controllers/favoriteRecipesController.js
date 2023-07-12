@@ -4,7 +4,7 @@ const Recipe = require("../models/recipeModel");
 const User = require("../models/userModel");
 
 const addRecepiesToFavorite = async (req, res, next) => {
-const { id } = req.params;
+    const { id } = req.params;
     const { _id } = req.user;
      const recipe = req.body;
 
@@ -36,6 +36,7 @@ const { id } = req.params;
     });
 }
  
+
 const getFavoriteRecipes = async (req, res, next) => {
     const { _id } = req.user;
 
@@ -56,13 +57,39 @@ const getFavoriteRecipes = async (req, res, next) => {
         res.status(200).json(favoriteRecipes);
 
 };
- 
 
+ 
+const removeFavoriteRecipe = async (req, res, next) => {
+    const { id } = req.params;
+    const { _id } = req.user;
+    
+     const user = await User.findById({ _id });
+
+    if (!user) {
+        throw HttpError(404, 'User not found');
+    }
+
+    const removeFavoriteFromUser = await User.findByIdAndUpdate(
+        { _id },
+        { $pull: { favorites: id } },
+        { new: true }
+    );
+
+    const removeFavoriteFromRecipe = await Recipe.findOneAndUpdate(
+        { _id: id },
+        { $pull: { favorites: _id } },
+        { new: true }
+    );
+    
+    res.status(200).json({
+        message: "Recipe was deleted success"
+    })
+ }
 
 module.exports = {
     addRecepiesToFavorite: ctrlWrapper(addRecepiesToFavorite),
     getFavoriteRecipes: ctrlWrapper(getFavoriteRecipes),
-    
+    removeFavoriteRecipe: ctrlWrapper(removeFavoriteRecipe)
 };
 
 
