@@ -55,6 +55,7 @@ const mainPageRecipes = async (req, res, next) => {
           },
         },
       },
+      
     },
   ]);
   res.status(200).json({
@@ -69,7 +70,10 @@ const getRecipeByCategory = async (req, res, next) => {
 
   const result = await Recipe.find({ category })
     .limit(8)
-    .populate("ingredients");
+    .populate({
+    path: "ingredients",
+    populate: { path: "id", model: Ingredients },
+  });
   if (!result.length) {
     res.status(404).json({
       code: 404,

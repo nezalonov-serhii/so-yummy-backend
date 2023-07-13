@@ -3,17 +3,59 @@ const logger = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 
-const authRouter = require("./routes/api/authRoutes");
-const recipeRouter = require("./routes/api/recipeRoutes");
-const ingredientRouter = require("./routes/api/ingredientRoutes");
-const searchRouter = require("./routes/api/searchRoutes");
-const ownRecipesRouter = require("./routes/api/ownRecipes");
-const favoriteRouter = require("./routes/api/favoriteRoutes");
+
+const swaggerUI = require('swagger-ui-express')
+const swaggerjsdoc = require('swagger-jsdoc')
+
+const authRouter = require('./routes/api/authRoutes')
+const recipeRouter = require('./routes/api/recipeRoutes')
+const ingredientRouter = require('./routes/api/ingredientRoutes')
+const searchRouter = require('./routes/api/searchRoutes')
+const ownRecipesRouter = require('./routes/api/ownRecipes')
+const favoriteRouter = require('./routes/api/favoriteRoutes')
 const popularRouter = require("./routes/api/popularRoutes");
 
+const options = {
+   definition: {
+      openapi: "3.0.0",
+      info: {
+         title: "So-Yummy Recipes app",
+         version: "1.0.0",
+         description: "This app offers more than just a collection of recipes - it is designed to be your very own digital cookbook. You can easily save and retrieve your own recipes at any time."
+      },
+      components: {
+         securitySchemes: {
+            bearerAuth: {
+               type: "http",
+               scheme: "bearer",
+               bearerFormat: 'JWT'
+            }
+         }
+
+      },
+      security: [{
+         bearerAuth: [],
+      }],
+      servers: [
+         {
+            url: "http://localhost:3003/api"
+         }
+      ],
+     
+   },
+   apis: ["./routes/api/*.js", "./models/*.js"]
+}
+
+const swaggerSpec = swaggerjsdoc(options)
+const swaggerDocs = (app, port) => {
+   
+}
 const app = express();
+app.use('/api/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec))
+
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+// app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(express.static("public"));
 app.use(logger(formatsLogger));
