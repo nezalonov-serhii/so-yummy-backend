@@ -5,7 +5,7 @@ const ingredientController = require("../../controllers/ingredientController");
 const router = express.Router();
 
 router.use(authenticate);
-router.get('/list', ingredientController.ingredientList);
-router.get("/", ingredientController.findRecipesByIngredient);
+router.get("/list", ingredientController.ingredientList);
+router.post("/", ingredientController.findRecipesByIngredient);
 
 module.exports = router;
