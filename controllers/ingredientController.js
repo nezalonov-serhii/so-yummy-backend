@@ -1,4 +1,4 @@
-const Ingredient = require("../models/ingredientModel");
+const Ingredient = require("../models/ingredientsModel");
 const Recipe = require("../models/recipeModel");
 const { ctrlWrapper } = require("../helpers");
 
