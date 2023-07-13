@@ -1,0 +1,19 @@
+
+/api/users/register:
+  post:
+    summary: Returns object with new user data
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/userRegister"
+    responses:
+      201:
+        description: User is registered, added gravatar
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/userResponse"
+
+ 
