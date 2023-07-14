@@ -27,7 +27,7 @@ const recipeSchema = new Schema({
     type: String,
     default: "",
   },
-  imgPiblicId: {
+  imgPublicId: {
     type: String,
   },
   preview: {

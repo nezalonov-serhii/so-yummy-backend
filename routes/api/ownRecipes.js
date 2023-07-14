@@ -61,7 +61,7 @@ router.get("/", ownRecipesController.getOwnRecipes);
  *                  $ref: "#/components/schemas/Recipe"
  */
 
-router.post("/", upload.single("image"), ownRecipesController.postOwnRecipe);
+router.post("/", upload.single("recipeImg"), ownRecipesController.postOwnRecipe);
 
 /**
  * @openapi

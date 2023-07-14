@@ -34,25 +34,26 @@ const postOwnRecipe = async (req, res, next) => {
   let uploadRecipeImg = {};
   // console.log("req file before", req.file);
   // console.log("recipe", recipe);
+  let temporaryName = "";
   if (req.file) {
     console.log("req file in if", req.file);
-    const { path: temporaryName } = req.file;
+    temporaryName = req.file.path;
     uploadRecipeImg = await uploadRecipeImage(temporaryName);
   }
 
   const newRecipe = await Recipe.create({
     ...recipe,
     thumb: uploadRecipeImg.url,
-    imgPiblicId: uploadRecipeImg.public_id,
+    imgPublicId: uploadRecipeImg.public_id,
     preview: uploadRecipeImg.public_id,
     owner: _id,
   });
-// console.log('new recipe', newRecipe)
+  // console.log('new recipe', newRecipe)
   await User.findByIdAndUpdate(_id, {
     $push: { ownRecipes: { ...newRecipe } },
   });
 
-    if (req.file) {
+  if (req.file) {
     fs.unlink(temporaryName);
   }
 
@@ -67,7 +68,7 @@ const deleteOwnRecipe = async (req, res, next) => {
   const { id: idToDelete } = req.params;
 
   const deleted = await Recipe.findByIdAndDelete(idToDelete);
-  await deleteRecipeImg(deleted.imgPiblicId);
+  await deleteRecipeImg(deleted.imgPublicId);
   await User.findOneAndUpdate(
     { _id: _id },
     {
