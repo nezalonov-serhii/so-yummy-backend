@@ -27,6 +27,10 @@ const addIngridientToShopping = async (req,res,next) => {
   const { id } = req.params;
   const { _id } = req.user;
   const ingridient = req.body;
+  console.log("id",id)
+  console.log("_id",_id)
+  console.log("ingridient",ingridient)
+
 
   const user = await User.findById({ _id });
 
@@ -40,12 +44,12 @@ const addIngridientToShopping = async (req,res,next) => {
   }
   const addShoppingIngridientsToUser = await User.findByIdAndUpdate(
     { _id },
-    { $push: { shopping: id } },
+    { $push: { shopping: ingridient } },
     { new: true }
   );
   res.status(201).json({
-    message: `Ingridient ${addShoppingIngridientsToUser.name} is added to favorite`,
-    recipe: addShoppingIngridientsToUser,
+    message: `Ingridient ${ingridient.name} is added to favorite`,
+    ingridient: ingridient,
   });
 
 }
