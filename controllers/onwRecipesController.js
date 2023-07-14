@@ -31,9 +31,11 @@ const postOwnRecipe = async (req, res, next) => {
   const { _id } = req.user;
   const recipe = req.body;
   let uploadRecipeImg = {};
+
   let temporaryName = "";
 
   if (req.file) {
+
     temporaryName = req.file.path;
     uploadRecipeImg = await uploadRecipeImage(temporaryName);
   }
@@ -41,10 +43,12 @@ const postOwnRecipe = async (req, res, next) => {
   const newRecipe = await Recipe.create({
     ...recipe,
 
+
     thumb: uploadRecipeImg.hasOwnProperty("url") ? uploadRecipeImg.url : "",
     imgPublicId: uploadRecipeImg.hasOwnProperty("public_id")
       ? uploadRecipeImg.public_id
       : "",
+
     preview: uploadRecipeImg.public_id,
 
     owner: _id,
