@@ -49,7 +49,30 @@ router.get("/", ownRecipesController.getOwnRecipes);
  *      content:
  *       multipart/form-data:
  *        schema:
- *         $ref: "#/components/schemas/OwnRecipeAdd"
+ *         type: object
+ *         properties:
+ *              title:
+ *                  type: string
+ *              category:
+ *                  type: string
+ *              instructions:
+ *                  type: string
+ *              ingredients:
+ *                  type: array
+ *                  items:
+ *                      type: object
+ *                      properties:
+ *                          id:
+ *                              type: string
+ *                          measure:
+ *                              type: string
+ *              area:
+ *                  type: string
+ *              time:
+ *                  type: string
+ *              recipe:
+ *                  type: string
+ *                  format: binary
  *    responses:
  *      201:
  *        description: Recipe created successfully
