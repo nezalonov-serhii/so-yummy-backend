@@ -73,7 +73,7 @@ app.use("/api/search", searchRouter);
 app.use("/api/own-recipes", ownRecipesRouter);
 app.use("/api/favorite", favoriteRouter);
 app.use("/api/popular-recipe", popularRouter);
-app.use("api/shopping-list", shoppingRouter)
+app.use("/api/shopping-list", shoppingRouter);
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
