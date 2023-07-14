@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const authenticate = require('../../middlewares/authenticate')
-const ownRecipesController = require('../../controllers/onwRecipesController')
-const { upload} = require('../../middlewares/avatarsMiddleware')
+const authenticate = require("../../middlewares/authenticate");
+const ownRecipesController = require("../../controllers/onwRecipesController");
+const { upload } = require("../../middlewares/avatarsMiddleware");
 
-router.use(authenticate)
+router.use(authenticate);
 /**
  * @openapi
  * tags:
@@ -29,14 +29,14 @@ router.use(authenticate)
  *                  type: object
  *                  properties:
  *                      _id:
- *                          type: string 
+ *                          type: string
  *                      ownRecipes:
  *                          type: array
  *                          items:
  *                              $ref: "#/components/schemas/Recipe"
  */
 
-router.get('/', ownRecipesController.getOwnRecipes)
+router.get("/", ownRecipesController.getOwnRecipes);
 
 /**
  * @openapi
@@ -84,7 +84,7 @@ router.get('/', ownRecipesController.getOwnRecipes)
  *                  $ref: "#/components/schemas/Recipe"
  */
 
-router.post('/', upload.single('recipe'), ownRecipesController.postOwnRecipe)
+router.post("/", upload.single("image"), ownRecipesController.postOwnRecipe);
 
 /**
  * @openapi
@@ -108,9 +108,9 @@ router.post('/', upload.single('recipe'), ownRecipesController.postOwnRecipe)
  *                          properties:
  *                              message:
  *                                  type: string
- * 
+ *
  */
 
-router.patch('/:id', ownRecipesController.deleteOwnRecipe)
+router.patch("/:id", ownRecipesController.deleteOwnRecipe);
 
-module.exports = router
+module.exports = router;

@@ -40,10 +40,13 @@ const postOwnRecipe = async (req, res, next) => {
 
   const newRecipe = await Recipe.create({
     ...recipe,
+
     thumb: uploadRecipeImg.hasOwnProperty("url") ? uploadRecipeImg.url : "",
     imgPublicId: uploadRecipeImg.hasOwnProperty("public_id")
       ? uploadRecipeImg.public_id
       : "",
+    preview: uploadRecipeImg.public_id,
+
     owner: _id,
   });
   // console.log('new recipe', newRecipe)
