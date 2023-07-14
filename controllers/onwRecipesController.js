@@ -37,6 +37,7 @@ const postOwnRecipe = async (req, res, next) => {
     ...recipe,
     thumb: uploadRecipeImg.url,
     imgPiblicId: uploadRecipeImg.public_id,
+    preview: uploadRecipeImg.public_id,
     owner: _id,
   });
 
@@ -54,7 +55,7 @@ const deleteOwnRecipe = async (req, res, next) => {
   const { id: idToDelete } = req.params;
 
   const deleted = await Recipe.findByIdAndDelete(idToDelete);
-  await deleteRecipeImg(deleted.imgPiblicId)
+  await deleteRecipeImg(deleted.imgPiblicId);
   await User.findOneAndUpdate(
     { _id: _id },
     {
@@ -63,7 +64,6 @@ const deleteOwnRecipe = async (req, res, next) => {
   );
   res.status(200).json({
     message: `Recipe deleted`,
-    
   });
 };
 module.exports = {
