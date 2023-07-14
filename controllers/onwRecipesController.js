@@ -30,26 +30,25 @@ const getOwnRecipes = async (req, res, next) => {
 const postOwnRecipe = async (req, res, next) => {
   const { _id } = req.user;
   const recipe = req.body;
-  let uploadRecipeImg = {};
+  // let uploadRecipeImg = {};
 
-  let temporaryName = "";
+  // let temporaryName = "";
 
-  if (req.file) {
+  // if (req.file) {
 
-    temporaryName = req.file.path;
-    uploadRecipeImg = await uploadRecipeImage(temporaryName);
-  }
+  //   temporaryName = req.file.path;
+  //   uploadRecipeImg = await uploadRecipeImage(temporaryName);
+  // }
 
   const newRecipe = await Recipe.create({
     ...recipe,
 
+    // thumb: uploadRecipeImg.hasOwnProperty("url") ? uploadRecipeImg.url : "",
+    // imgPublicId: uploadRecipeImg.hasOwnProperty("public_id")
+    //   ? uploadRecipeImg.public_id
+    //   : "",
 
-    thumb: uploadRecipeImg.hasOwnProperty("url") ? uploadRecipeImg.url : "",
-    imgPublicId: uploadRecipeImg.hasOwnProperty("public_id")
-      ? uploadRecipeImg.public_id
-      : "",
-
-    preview: uploadRecipeImg.public_id,
+    // preview: uploadRecipeImg.public_id,
 
     owner: _id,
   });
@@ -58,9 +57,9 @@ const postOwnRecipe = async (req, res, next) => {
     $push: { ownRecipes: { ...newRecipe } },
   });
 
-  if (req.file) {
-    fs.unlink(temporaryName);
-  }
+  // if (req.file) {
+  //   fs.unlink(temporaryName);
+  // }
 
   res.status(200).json({
     message: `Recipe ${newRecipe.title} added`,
