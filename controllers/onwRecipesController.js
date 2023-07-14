@@ -3,11 +3,12 @@ const User = require("../models/userModel");
 const Ingredients = require("../models/ingredientsModel");
 const { ctrlWrapper } = require("../helpers/index");
 const { uploadRecipeImage, deleteRecipeImg } = require("../helpers/cloudinary");
+const fs = require("fs/promises");
 
 const getOwnRecipes = async (req, res, next) => {
   const { _id } = req.user;
 
-  const user = await User.find({ _id }).populate({
+  const user = await User.find({ _id }, "ownRecipes").populate({
     path: "ownRecipes",
     populate: {
       path: "_id",
@@ -29,9 +30,15 @@ const getOwnRecipes = async (req, res, next) => {
 };
 const postOwnRecipe = async (req, res, next) => {
   const { _id } = req.user;
-  const { path: temporaryName, filename: newFileName } = req.file;
   const recipe = req.body;
-  const uploadRecipeImg = await uploadRecipeImage(temporaryName);
+  let uploadRecipeImg = {};
+  // console.log("req file before", req.file);
+  // console.log("recipe", recipe);
+  if (req.file) {
+    console.log("req file in if", req.file);
+    const { path: temporaryName } = req.file;
+    uploadRecipeImg = await uploadRecipeImage(temporaryName);
+  }
 
   const newRecipe = await Recipe.create({
     ...recipe,
@@ -40,16 +47,21 @@ const postOwnRecipe = async (req, res, next) => {
     preview: uploadRecipeImg.public_id,
     owner: _id,
   });
-
-  const user = await User.findByIdAndUpdate(_id, {
+// console.log('new recipe', newRecipe)
+  await User.findByIdAndUpdate(_id, {
     $push: { ownRecipes: { ...newRecipe } },
   });
+
+    if (req.file) {
+    fs.unlink(temporaryName);
+  }
+
   res.status(200).json({
     message: `Recipe ${newRecipe.title} added`,
-
     recipe: newRecipe,
   });
 };
+
 const deleteOwnRecipe = async (req, res, next) => {
   const { _id } = req.user;
   const { id: idToDelete } = req.params;
