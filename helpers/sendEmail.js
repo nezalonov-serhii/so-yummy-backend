@@ -1,35 +1,14 @@
-const ElasticEmail = require("@elasticemail/elasticemail-client");
-const { ELASTICEMAIL_API_KEY } = process.env;
-const defaultClient = ElasticEmail.ApiClient.instance;
-const { apikey } = defaultClient.authentications;
-apikey.apiKey = ELASTICEMAIL_API_KEY;
+const mgEmail = require("@sendgrid/mail");
+require("dotenv").config();
 
-const api = new ElasticEmail.EmailsApi();
+const { SENDGRID_API_KEY, EMAIL } = process.env;
 
-const sendEmail = ({ to, subject, html }) => {
-   const email = ElasticEmail.EmailMessageData.constructFromObject({
-      Recipients: [new ElasticEmail.EmailRecipient(to)],
-      Content: {
-         Body: [
-            ElasticEmail.BodyPart.constructFromObject({
-               ContentType: "HTML",
-               Content: html,
-            }),
-         ],
-         Subject: subject,
-         From: "so.yummy.project@gmail.com",
-      },
-   });
+mgEmail.setApiKey(SENDGRID_API_KEY);
 
-   const callback = function (error, data, response) {
-      if (error) {
-         console.error(error);
-      } else {
-         console.log("API called successfully.");
-      }
-   };
-
-   api.emailsPost(email, callback);
+const sendEmail = async (data) => {
+  const email = { ...data, from: EMAIL };
+  mgEmail.send(email);
+  return true;
 };
 
-module.exports = sendEmail;
+module.exports = { sendEmail };

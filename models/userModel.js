@@ -31,6 +31,10 @@ const userSchema = new Schema({
   favorites: {
       type: Array,
       default: [],
+  },
+   subscribe: {
+      type: Boolean,
+      default: false,
     },
   ownRecipes: [
     {
