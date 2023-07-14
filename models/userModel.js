@@ -40,6 +40,10 @@ const userSchema = new Schema({
       },
     },
   ],
+  shopping:{
+    type: Array,
+    default: [],
+  },
   token: {
     type: String,
     default: "",
