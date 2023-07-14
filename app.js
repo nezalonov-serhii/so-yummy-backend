@@ -39,6 +39,9 @@ const options = {
       servers: [
          {
             url: "http://localhost:3003/api"
+         },
+           {
+            url: "https://so-yummy-426w.onrender.com/"
          }
       ],
      

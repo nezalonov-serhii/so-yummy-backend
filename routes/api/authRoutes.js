@@ -37,8 +37,6 @@ const { upload } = require("../../middlewares/avatarsMiddleware")
  *             $ref: "#/components/schemas/userRegisterResponse"
  */
 
-
-
 router.post("/register", validateBody(schemas.userRegisterValidation), AuthController.userRegistration);
 
 /**

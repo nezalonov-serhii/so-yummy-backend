@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Recipe = require('../models/recipeModel')
 const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
 const jwt = require("jsonwebtoken");
@@ -96,7 +97,10 @@ const userLogout = async (req, res, next) => {
 
 const userCurrent = async (req, res, next) => {
   const { id } = req.user;
-  const currentUser = await User.findById(id);
+  const currentUser = await User.findById(id).populate({
+    path: "ownRecipes",
+    populate: { path: "_id", model: Recipe },
+  });
   res.json(currentUser);
 };
 

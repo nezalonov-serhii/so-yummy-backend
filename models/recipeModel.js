@@ -1,3 +1,4 @@
+const { string } = require("joi");
 const { Schema, model } = require("mongoose");
 
 const recipeSchema = new Schema({
@@ -56,7 +57,6 @@ const recipeSchema = new Schema({
     {
       id: {
         type: String,
-        ref: "ingredients",
       },
       measure: {
         type: String,
@@ -67,7 +67,18 @@ const recipeSchema = new Schema({
 });
 
 module.exports = model("recipes", recipeSchema);
-
+// ingredients: [
+//     {
+//       id: {
+//         type: Schema.Types.ObjectId,
+//         ref: "ingredients",
+//       },
+//       measure: {
+//         type: String,
+//         required: [true, "Set the measure"],
+//       },
+//     },
+//   ],
 
 /**
 * @openapi
@@ -127,12 +138,8 @@ module.exports = model("recipes", recipeSchema);
 *     Ingredient:
 *       required:
 *         - name
-*         - desc
 *       type: object
 *       properties:
-*         id:
-*           type: string
-*           example: 6462a8f74c3d0ddd28897fb8
 *         name:
 *           type: string
 *           example: Chicken
@@ -166,6 +173,15 @@ module.exports = model("recipes", recipeSchema);
 *           type: string
 *         instructions:
 *           type: string
+*         ingredients:
+*           type: array
+*           items:
+*             type: object
+*             properties:
+*               id:
+*                 type: string
+*               measure:
+*                 type: string
 *         description:
 *           type: string
 *         time:
