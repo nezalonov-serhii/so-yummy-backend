@@ -8,27 +8,31 @@ const recipeSchema = new Schema({
   },
   category: {
     type: String,
+    required: [true, "Set recipe category"],
   },
   area: {
     type: String,
-    required: [true, "Set the area"],
+    default: "",
   },
 
   instructions: {
-    type: String,
+    type: Array,
     required: [true, "Set the instructions"],
   },
   description: {
     type: String,
+    required: [true, "Set the description"],
   },
   thumb: {
     type: String,
+    default: "",
   },
   imgPiblicId: {
-    type: String
+    type: String,
   },
   preview: {
     type: String,
+    default: "",
   },
   time: {
     type: String,
@@ -36,8 +40,12 @@ const recipeSchema = new Schema({
   },
   youtube: {
     type: String,
+    default: "",
   },
-  tags: [],
+  tags: {
+    type: Array,
+    default: [],
+  },
   isLikedBy: [
     {
       type: Schema.Types.ObjectId,
@@ -45,13 +53,9 @@ const recipeSchema = new Schema({
     },
   ],
   favorites: {
-      type: [Schema.Types.ObjectId],
-      ref: "user",
-      default: [],
-    },
-  owner: {
-    type: Schema.Types.ObjectId,
+    type: [Schema.Types.ObjectId],
     ref: "user",
+    default: [],
   },
   ingredients: [
     {
@@ -64,6 +68,10 @@ const recipeSchema = new Schema({
       },
     },
   ],
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "user",
+  },
 });
 
 module.exports = model("recipes", recipeSchema);
