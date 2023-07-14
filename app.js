@@ -14,7 +14,9 @@ const searchRouter = require('./routes/api/searchRoutes')
 const ownRecipesRouter = require('./routes/api/ownRecipes')
 const favoriteRouter = require('./routes/api/favoriteRoutes')
 const popularRouter = require("./routes/api/popularRoutes");
+const shoppingRouter = require("./routes/api/shoppingRouter");
 const subscribeRouter = require('./routes/api/subscribeRoutes')
+
 
 const options = {
    definition: {
@@ -73,6 +75,7 @@ app.use("/api/search", searchRouter);
 app.use("/api/own-recipes", ownRecipesRouter);
 app.use("/api/favorite", favoriteRouter);
 app.use("/api/popular-recipe", popularRouter);
+app.use("/api/shopping-list", shoppingRouter);
 app.use("/api/subscribe", subscribeRouter)
 
 app.use((req, res) => {
