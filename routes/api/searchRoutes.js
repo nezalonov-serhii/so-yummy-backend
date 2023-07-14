@@ -10,14 +10,14 @@ router.use(authenticate);
  * @openapi
  * tags:
  *  name: Search
- *  description: Search by recipe title
+ *  description: Search recipe by title or ingredient
  */
 
 /**
  * @openapi
  * /search:
  *  post:
- *    summary: List of recipes, matching search query
+ *    summary: Search recipes, matching search query
  *    tags: [Search]
  *    requestBody:
  *      required: true
