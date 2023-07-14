@@ -68,9 +68,7 @@ const userLogin = async (req, res, next) => {
   if (!user) {
     throw HttpError(401);
   }
-  // if (!user.isValidated) {
-  //   throw HttpError(401, "Validate your email");
-  // }
+
   const checkPassword = await bcrypt.compare(password, user.password);
 
   if (!checkPassword) {
