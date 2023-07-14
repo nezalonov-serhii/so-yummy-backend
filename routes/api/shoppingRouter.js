@@ -6,6 +6,7 @@ const shoppingController = require("../../controllers/shoppingController");
 router.use(authenticate)
 
 router.get('/', shoppingController.getShopping)
+router.post('/:id', shoppingController.addIngridientToShopping)
 
 
 module.exports = router;
