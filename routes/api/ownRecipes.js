@@ -61,8 +61,33 @@ router.get('/', ownRecipesController.getOwnRecipes)
  *                  $ref: "#/components/schemas/Recipe"
  */
 
-
 router.post('/', upload.single('recipe'), ownRecipesController.postOwnRecipe)
+
+/**
+ * @openapi
+ * /own-recipes/{id}:
+ *  patch:
+ *      summary: Allows user to delete own recipe from DB and own profile
+ *      tags: [Own-recipes]
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            required: true
+ *            schema:
+ *              type: string
+ *      responses:
+ *          200:
+ *              description: Onw recipe deleted
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ * 
+ */
+
 router.patch('/:id', ownRecipesController.deleteOwnRecipe)
 
 module.exports = router

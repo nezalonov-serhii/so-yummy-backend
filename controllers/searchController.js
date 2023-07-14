@@ -4,7 +4,7 @@ const { ctrlWrapper } = require("../helpers/index");
 const searchByQuery = async (req, res, next) => {
    const { query } = req.body;
 
-   const result = await Recipe.find({ title: { $regex: query } }, null, {
+   const result = await Recipe.find({ $text: { $search: query} }, null, {
       strictQuery: false,
    });
    if (!result) {
