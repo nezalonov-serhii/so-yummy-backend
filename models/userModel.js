@@ -40,6 +40,12 @@ const userSchema = new Schema({
       },
     },
   ],
+  addShoppingListBy: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
+  ],
   token: {
     type: String,
     default: "",
