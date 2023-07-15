@@ -60,14 +60,11 @@ const recipeSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "user",
   },
-  ingredients: {
-    type: Array,
-    default: [],
-
-    measure: {
-      type: String,
+  ingredients: [
+    {
+      id: String, measure: String
     },
-  },
+  ],
 });
 
 module.exports = model("recipes", recipeSchema);
@@ -121,7 +118,9 @@ module.exports = model("recipes", recipeSchema);
  *           type: string
  *           example: Italian
  *         instructions:
- *           type: string
+ *           type: array
+ *           items:
+ *             type: string
  *         description:
  *             type: string
  *         thumb:
@@ -188,7 +187,9 @@ module.exports = model("recipes", recipeSchema);
  *         category:
  *           type: string
  *         instructions:
- *           type: string
+ *           type: array
+ *           items:
+ *            type: string
  *         ingredients:
  *           type: array
  *           items:

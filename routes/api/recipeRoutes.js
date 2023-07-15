@@ -2,6 +2,8 @@ const express = require("express");
 const authenticate = require('../../middlewares/authenticate')
 const recipeController = require('../../controllers/recipeController')
 const router = express.Router();
+const {validateBody} = require('../../middlewares/validateBody')
+const schemas = require('../../schemas/validation')
 const {checkReqParams} = require('../../helpers')
 
 router.use(authenticate)
@@ -113,7 +115,6 @@ router.get('/main-page', recipeController.mainPageRecipes)
  */
 
 router.get('/:category', checkReqParams, recipeController.getRecipeByCategory)
-
 
 /**
  * @openapi
