@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const authenticate = require("../../middlewares/authenticate");
 const searchController = require("../../controllers/searchController");
-// const bodyParser = require('body-parser');
+const {validateBody} = require('../../middlewares/validateBody')
+const schemas = require('../../schemas/validation')
 
 // router.use(bodyParser.json()); // <-- add the JSON parser
 router.use(authenticate);
@@ -54,6 +55,6 @@ router.use(authenticate);
  *                          message:
  *                              type: string
  */
-router.post("/", searchController.searchByQuery);
+router.post("/", validateBody(schemas.searchQueryValidation), searchController.searchByQuery);
 
 module.exports = router;

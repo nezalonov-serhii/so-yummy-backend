@@ -3,6 +3,8 @@ const router = express.Router();
 const authenticate = require("../../middlewares/authenticate");
 const ownRecipesController = require("../../controllers/onwRecipesController");
 const { upload } = require("../../middlewares/avatarsMiddleware");
+const {validateBody} = require('../../middlewares/validateBody')
+const schemas = require('../../schemas/validation')
 
 router.use(authenticate);
 /**
@@ -50,13 +52,16 @@ router.get("/", ownRecipesController.getOwnRecipes);
  *       multipart/form-data:
  *        schema:
  *         type: object
+ *         required: [title, category, instructions, ingredients, time]
  *         properties:
  *              title:
  *                  type: string
  *              category:
  *                  type: string
  *              instructions:
- *                  type: string
+ *                  type: array
+ *                  items:
+ *                      type: string
  *              ingredients:
  *                  type: array
  *                  items:
@@ -66,8 +71,6 @@ router.get("/", ownRecipesController.getOwnRecipes);
  *                              type: string
  *                          measure:
  *                              type: string
- *              area:
- *                  type: string
  *              time:
  *                  type: string
  *              recipe:
@@ -84,7 +87,7 @@ router.get("/", ownRecipesController.getOwnRecipes);
  *                  $ref: "#/components/schemas/Recipe"
  */
 
-router.post("/", upload.single("recipeImg"), ownRecipesController.postOwnRecipe);
+router.post("/", upload.single("recipeImg"), validateBody(schemas.postOwnRecipeValidation), ownRecipesController.postOwnRecipe);
 
 /**
  * @openapi
