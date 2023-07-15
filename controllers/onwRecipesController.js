@@ -27,6 +27,7 @@ const getOwnRecipes = async (req, res, next) => {
     });
   }
 };
+
 const postOwnRecipe = async (req, res, next) => {
   const { _id } = req.user;
   const { path: temporaryName, filename: newFileName } = req.file;
@@ -49,6 +50,7 @@ const postOwnRecipe = async (req, res, next) => {
     recipe: newRecipe,
   });
 };
+
 const deleteOwnRecipe = async (req, res, next) => {
   const { _id } = req.user;
   const { id: idToDelete } = req.params;
@@ -66,6 +68,7 @@ const deleteOwnRecipe = async (req, res, next) => {
     
   });
 };
+
 module.exports = {
   getOwnRecipes: ctrlWrapper(getOwnRecipes),
   postOwnRecipe: ctrlWrapper(postOwnRecipe),

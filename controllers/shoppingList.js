@@ -55,4 +55,3 @@ module.exports = {
   removeIngredientsFromShoppingList: ctrlWrapper(removeIngredientsFromShoppingList),
 };
 
-// скаpать тим лиду добавить в ингридиенты новое поле для юзеров которые добавили в свой шопинг лист ингридиент
