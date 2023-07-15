@@ -85,7 +85,7 @@ const userLogin = async (req, res, next) => {
 
 const userLogout = async (req, res, next) => {
   const { _id } = req.user;
-  console.log("req user", req.user);
+;
   await User.findByIdAndUpdate(_id, { token: "" });
 
   res.json({
