@@ -31,6 +31,10 @@ const userSchema = new Schema({
   favorites: {
       type: Array,
       default: [],
+  },
+   subscribe: {
+      type: Boolean,
+      default: false,
     },
   ownRecipes: [
     {
@@ -40,6 +44,7 @@ const userSchema = new Schema({
       },
     },
   ],
+
   addShoppingListBy: [
     {
       id: {
@@ -52,6 +57,12 @@ const userSchema = new Schema({
       },
     },
   ],
+
+  shopping:{
+    type: Array,
+    default: [],
+  },
+
   token: {
     type: String,
     default: "",
@@ -59,3 +70,93 @@ const userSchema = new Schema({
 });
 
 module.exports = model("user", userSchema);
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   userRegister:
+ *     type: object
+ *     required:
+ *             - name
+ *             - email
+ *             - password
+ *     properties:
+ *         name:
+ *           type: string
+ *           description: Name of new user
+ *         email:
+ *           type: string
+ *           description: Email of new user, must be unique through database
+ *         password:
+ *           type: string
+ *           format: password
+ *           description: User password
+ *   userLogin:
+ *     type: object
+ *     required:
+ *             - email
+ *             - password
+ *     properties:
+ *         email:
+ *           type: string
+ *           description: Email of new user, must be unique through database
+ *         password:
+ *           type: string
+ *           description: User password      
+ *   
+ *   userLoginResponse:
+ *     type: object
+ *     properties:
+ *         token:
+ *           type: string
+ *           description: User token
+ *         
+ *   
+ *   userRegisterResponse:
+ *     type: object
+ *     properties:
+ *         id:
+ *           type: string
+ *           description: The auto-genereted by database unique id
+ *         name:
+ *           type: string
+ *           description: Name of new user
+ *         email:
+ *           type: string
+ *           description: Email of new user, must be unique through database
+ *         password:
+ *           type: string
+ *           description: User password
+ *         avatarURL:
+ *           type: string
+ *           default: ""
+ *           description: Url to user avatar
+ *         avatar:
+ *           type: object
+ *           description: Object with user avatar data
+ *         isValidated:
+ *           type: boolean
+ *           default: false
+ *           description: Defines wether the user confirmed email
+ *         favorites:
+ *          type: array
+ *          items: {}
+ *          description: Array of favorite recipes
+ *         ownRecipes:
+ *           type: array
+ *           items: {}
+ *           description: Array of users own recipes
+ *         token:
+ *           type: string
+ *           description: JSON token
+ * 
+ *   userUpdateAvatarAndName:
+ *      type: object
+ *      properties:
+ *          name:
+ *              type: string
+ *          avatar:
+ *              type: string
+ *              format: binary
+*/

@@ -4,9 +4,10 @@ const { ctrlWrapper } = require("../helpers/index");
 const searchByQuery = async (req, res, next) => {
   const { query } = req.body;
 
-  const result = await Recipe.find({ title: { $regex: query } }, null, {
-    strictQuery: false,
+  const result = await Recipe.find({ title: { $regex: query, $options: 'i'} }, null, {
+     strictQuery: false,
   });
+
   if (!result) {
     res.status(404).json({
       code: 404,

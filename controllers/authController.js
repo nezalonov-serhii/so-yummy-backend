@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Recipe = require('../models/recipeModel')
 const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
 const jwt = require("jsonwebtoken");
@@ -9,7 +10,7 @@ const jimp = require("jimp");
 const { SECRET_KEY } = process.env;
 
 const { ctrlWrapper } = require("../helpers/index");
-const {HttpError} = require('../helpers')
+const { HttpError } = require("../helpers");
 const storeImage = path.resolve("public", "avatars");
 const { uploadImage, updateLoadedImage } = require("../helpers/cloudinary");
 
@@ -67,9 +68,7 @@ const userLogin = async (req, res, next) => {
   if (!user) {
     throw HttpError(401);
   }
-  // if (!user.isValidated) {
-  //   throw HttpError(401, "Validate your email");
-  // }
+
   const checkPassword = await bcrypt.compare(password, user.password);
 
   if (!checkPassword) {
@@ -86,6 +85,7 @@ const userLogin = async (req, res, next) => {
 
 const userLogout = async (req, res, next) => {
   const { _id } = req.user;
+  console.log("req user", req.user);
   await User.findByIdAndUpdate(_id, { token: "" });
 
   res.json({
@@ -95,40 +95,45 @@ const userLogout = async (req, res, next) => {
 
 const userCurrent = async (req, res, next) => {
   const { id } = req.user;
-  const currentUser = await User.findById(id);
+  const currentUser = await User.findById(id).populate({
+    path: "ownRecipes",
+    populate: { path: "_id", model: Recipe },
+  });
   res.json(currentUser);
 };
 
 const userUpdateAvatar = async (req, res, next) => {
   const { id } = req.user;
-  const { path: temporaryName, filename: newFileName } = req.file;
+  const user = await User.findById(id);
   const { name } = req.body;
+  const updName = name.trim() === "" ? user.name : name
+  let result = {};
+  if (req.file) {
+    const { path: temporaryName } = req.file;
+    try {
+      if (user.avatar) {
+        const { public_id } = user.avatar;
 
-  //   const fileName = path.join(storeImage, newFileName);
+        result = await updateLoadedImage(temporaryName, public_id);
+      } else {
+        result = await uploadImage(temporaryName);
+      }
 
-  try {
-    const user = await User.findById(id);
-    let result = null;
-    if (user.avatar) {
-      const { public_id } = user.avatar;
-
-      result = await updateLoadedImage(temporaryName, public_id);
-    } else {
-      result = await uploadImage(temporaryName);
+      fs.unlink(temporaryName);
+    } catch (error) {
+      fs.unlink(temporaryName);
+      next(error);
     }
-
-    await User.findByIdAndUpdate(id, {
-      name,
-      avatarURL: result.url,
-      avatar: result,
-    });
-    fs.unlink(temporaryName);
-    res.status(200);
-    res.json(`avatar changed to ${result.url}, name changed to ${name}`);
-  } catch (error) {
-    fs.unlink(temporaryName);
-    next(error);
   }
+
+  await User.findByIdAndUpdate(id, {
+    name: updName,
+    avatarURL: result.hasOwnProperty('url') ? result.url : user.avatarURL,
+    avatar: result.hasOwnProperty('url') ? result : user.avatar,
+  });
+
+  res.status(200);
+  res.json(`Avatar url is: ${result.hasOwnProperty('url') ? result.url : user.avatarURL}, username is ${updName}`);
 };
 
 module.exports = {

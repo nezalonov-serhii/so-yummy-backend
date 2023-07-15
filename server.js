@@ -10,7 +10,7 @@ const { DB_HOST, PORT } = process.env;
 // const app = express()
 app.use(
   express.urlencoded({
-    extended: false,
+    extended: true,
   })
 );
 

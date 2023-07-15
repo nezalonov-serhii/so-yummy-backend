@@ -3,7 +3,10 @@ const Ingredients = require("../models/ingredientsModel");
 const { ctrlWrapper } = require("../helpers/index");
 
 const getAllRecipes = async (req, res, next) => {
-  const result = await Recipe.find({}).populate("ingredients").exec();
+  const result = await Recipe.find({}).populate({
+    path: "ingredients",
+    populate: { path: "id", model: Ingredients },
+  });
 
   res.status(200).json({
     code: 200,
@@ -55,6 +58,7 @@ const mainPageRecipes = async (req, res, next) => {
           },
         },
       },
+      
     },
   ]);
   res.status(200).json({
@@ -69,7 +73,10 @@ const getRecipeByCategory = async (req, res, next) => {
 
   const result = await Recipe.find({ category })
     .limit(8)
-    .populate("ingredients");
+    .populate({
+    path: "ingredients",
+    populate: { path: "id", model: Ingredients },
+  });
   if (!result.length) {
     res.status(404).json({
       code: 404,
