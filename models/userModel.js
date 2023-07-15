@@ -43,8 +43,12 @@ const userSchema = new Schema({
   addShoppingListBy: [
     {
       id: {
-        type: Schema.Types.ObjectId,
+        type: String,
         ref: "ingredients"
+      },
+      measure: {
+        type: String,
+        required: [true, "Set the measure"],
       },
     },
   ],
