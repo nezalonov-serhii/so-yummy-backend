@@ -27,6 +27,7 @@ const getOwnRecipes = async (req, res, next) => {
     });
   }
 };
+
 const postOwnRecipe = async (req, res, next) => {
   const { _id } = req.user;
   const recipe = req.body;
@@ -83,6 +84,7 @@ const deleteOwnRecipe = async (req, res, next) => {
     message: `Recipe deleted`,
   });
 };
+
 module.exports = {
   getOwnRecipes: ctrlWrapper(getOwnRecipes),
   postOwnRecipe: ctrlWrapper(postOwnRecipe),

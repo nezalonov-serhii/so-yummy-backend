@@ -44,10 +44,25 @@ const userSchema = new Schema({
       },
     },
   ],
+
+  addShoppingListBy: [
+    {
+      id: {
+        type: String,
+        ref: "ingredients"
+      },
+      measure: {
+        type: String,
+        required: [true, "Set the measure"],
+      },
+    },
+  ],
+
   shopping:{
     type: Array,
     default: [],
   },
+
   token: {
     type: String,
     default: "",
