@@ -27,6 +27,7 @@ const getIngredientsFromShoppingList = async (req, res, next) => {
 
 const addIngredientsInShoppingList = async (req, res, next) => {
   const { _id } = req.user;
+  // console.log(req);
   const  ingredient = req.body.ingredient;
   const  measure = req.body.measure;
 
