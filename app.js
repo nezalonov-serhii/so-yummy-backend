@@ -44,7 +44,7 @@ const options = {
             url: "http://localhost:3003/api"
          },
            {
-            url: "https://so-yummy-426w.onrender.com/"
+            url: "https://so-yummy-426w.onrender.com/api"
          }
       ],
      
