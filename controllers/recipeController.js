@@ -72,7 +72,6 @@ const getRecipeByCategory = async (req, res, next) => {
   const { category } = req.params;
 
   const result = await Recipe.find({ category })
-    .limit(8)
     .populate({
     path: "ingredients",
     populate: { path: "id", model: Ingredients },
