@@ -48,7 +48,7 @@ const { email } = req.body;
     subscribe: true,
   });
   if (user.subscribe) {
-    res.status(200).json({
+    res.status(409).json({
        message: 'You are already subscribed to the newsletter'
     })
   }
