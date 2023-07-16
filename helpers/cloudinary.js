@@ -21,7 +21,7 @@ const uploadImage = async (imagePath) => {
     const result = await cloudinary.uploader.upload(imagePath, {
       folder: "yummy/avatars",
     });
-    // console.log(result);
+ 
     return result;
   } catch (error) {
     console.error(error);
@@ -58,7 +58,7 @@ const uploadRecipeImage = async (imagePath) => {
     const result = await cloudinary.uploader.upload(imagePath, {
       folder: "yummy/recipes",
     });
-    // console.log(result);
+
     return result;
   } catch (error) {
     console.error(error);

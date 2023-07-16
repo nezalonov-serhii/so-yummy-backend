@@ -2,7 +2,7 @@ const { ctrlWrapper } = require("../helpers/index");
 const Recipe = require("../models/recipeModel");
 
 const popularRecipes = async (req, res) => {
-  console.log(Recipe[0]);
+
   const allRecipes = await Recipe.find();
   const result = allRecipes
     .filter((recipe) => recipe.favorites && recipe.favorites.length > 0)

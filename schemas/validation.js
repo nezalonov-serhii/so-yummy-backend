@@ -30,7 +30,6 @@ const validateCats = async (body) => {
   let validation;
       try {
         validation = await Categories.find({ name: body });
-        console.log("cat", !validation.hasOwnProperty('name'));
         if (!validation.hasOwnProperty('name')) {
           return HttpError(404);
         }
@@ -44,8 +43,8 @@ const postOwnRecipeValidation = Joi.object({
   title: Joi.string().trim().required("Enter Recipe title"),
   category: Joi.string().trim().required("Enter category"),
   description: Joi.string(),
-  instructions: Joi.array().items(Joi.string()).required("Enter instructions"),
-  ingredients: Joi.array().required(),
+  instructions: Joi.string().required("Enter instructions"),
+  ingredients: Joi.string().required(),
   time: Joi.string().required(),
   recipeImg: Joi.string()
 });
