@@ -42,7 +42,10 @@ const { email } = req.body;
   }
 
   if (!user) {
-    throw HttpError("Email not found");
+    res.status(403).json({
+      message: 'Email not found. You need to register.'
+    })
+   
   }
   await User.findByIdAndUpdate(user._id, {
     subscribe: true,
