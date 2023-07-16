@@ -1,19 +1,18 @@
 const User = require("../models/userModel");
 const { ctrlWrapper } = require("../helpers/index");
 const Ingredients = require("../models/ingredientsModel");
+const { HttpError } = require("../helpers");
+
 
 const getIngredientsFromShoppingList = async (req, res, next) => {
   const { _id } = req.user;
-  const user = await User.find({ _id }).populate({
-    path: "addShoppingListBy",
-    populate: {
-      path: "_id",
-      model: User,
-      populate: [{ path: "addShoppingListBy.id", model: Ingredients }],
-    },
+  const user = await User.find({ _id }, "shoppingList").populate({
+    path: "ingredient",
+    model: Ingredients,
+    strictPopulate: false,
   });
-    
-    if (user) {
+
+  if (user) {
     const result = user;
     res.status(200).json({
       data: result,
@@ -27,26 +26,42 @@ const getIngredientsFromShoppingList = async (req, res, next) => {
 
 const addIngredientsInShoppingList = async (req, res, next) => {
   const { _id } = req.user;
-  // console.log(req);
-  const  ingredient = req.body.ingredient;
-  const  measure = req.body.measure;
+  const { ingredient, measure: newMeasure } = req.body;
 
+  const addIngredient = await Ingredients.findById({ _id: ingredient });
+  if (!addIngredient) {
+    throw HttpError(404, "Ingrediend by ID not found");
+  }
   const newIngredient = {
-    id: ingredient,
-    measure: measure
+    ingredient,
+    measure: newMeasure,
   };
 
-  const user = await User.findByIdAndUpdate(_id, {
-    $push: { addShoppingListBy: { ...newIngredient } },
-  });
+  const user = await User.findById(_id);
+  if (!user.shoppingList || user.shoppingList.length === 0) {
+    user.shoppingList = [newIngredient];
+    user.save();
+  } else if (user.shoppingList.length) {
+    const index = user.shoppingList.findIndex((obj) => {
+      return obj.ingredient == ingredient;
+    });
+    if (index !== -1) {
+      console.log("measure", user.shoppingList[index].measure);
+      user.shoppingList[index].measure = user.shoppingList[
+        index
+      ].measure.concat("/r/n", newMeasure);
+    } else {
+      user.shoppingList = [...user.shoppingList, newIngredient];
+    }
+    user.save();
+  }
 
   res.status(200).json({
-    message: `Ingredient added`,
+    message: `New ingredient added`,
 
-    ingredient: newIngredient,
+    data: user.shoppingList,
   });
 };
-
 
 const removeIngredientsFromShoppingList = async (req, res, next) => {
   const { _id } = req.user;
@@ -54,17 +69,18 @@ const removeIngredientsFromShoppingList = async (req, res, next) => {
   await User.findOneAndUpdate(
     { _id: _id },
     {
-      $pull: { addShoppingListBy: { _id: idToDelete } },
+      $pull: { shoppingList: { _id: idToDelete } },
     }
   );
   res.status(200).json({
-    message: 'Ingredient deleted from shopping list',
+    message: "Ingredient deleted from shopping list",
   });
 };
 
 module.exports = {
   getIngredientsFromShoppingList: ctrlWrapper(getIngredientsFromShoppingList),
   addIngredientsInShoppingList: ctrlWrapper(addIngredientsInShoppingList),
-  removeIngredientsFromShoppingList: ctrlWrapper(removeIngredientsFromShoppingList),
+  removeIngredientsFromShoppingList: ctrlWrapper(
+    removeIngredientsFromShoppingList
+  ),
 };
-
