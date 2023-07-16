@@ -36,14 +36,7 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  ownRecipes: [
-    {
-      id: {
-        type: Schema.Types.ObjectId,
-        ref: "recipes",
-      },
-    },
-  ],
+  ownRecipes: [{ type: Schema.Types.ObjectId, ref: "recipes" }],
 
   shoppingList: [
     {
