@@ -62,7 +62,8 @@ router.get("/", ownRecipesController.getOwnRecipes);
  *              instructions:
  *                  type: array
  *                  items:
- *                      type: string
+ *                   type: string
+ *                  examlpe: [Description of preparation]
  *              ingredients:
  *                  type: array
  *                  items:

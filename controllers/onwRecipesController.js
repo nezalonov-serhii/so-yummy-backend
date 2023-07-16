@@ -8,15 +8,17 @@ const fs = require("fs/promises");
 const getOwnRecipes = async (req, res, next) => {
   const { _id } = req.user;
 
-  const data = await User.findById(_id).populate('ownRecipes', null, Recipe);
+  const data = await User.findById(_id).populate("ownRecipes", null, Recipe);
 
-  if (data) {
+
+  if (data.ownRecipes.length) {
+
     res.status(200).json({
-      data
+      data: data.ownRecipes,
     });
-  } else if (!data.ownRecipes.length) {
-    res.status(200).json({
-      message: `User ${data.name} does not have own recipes`,
+  } else {
+    res.status(404).json({
+      message: `User does not have own recipes`,
     });
   }
 };
@@ -33,7 +35,6 @@ const postOwnRecipe = async (req, res, next) => {
   let temporaryName = "";
   const instructs = recipe.instructions.join("\r\n");
 
-  console.log("recipe", recipe);
   if (req.file) {
     temporaryName = req.file.path;
     uploadRecipeImg = await uploadRecipeImage(temporaryName);
@@ -49,7 +50,7 @@ const postOwnRecipe = async (req, res, next) => {
       ? uploadRecipeImg.public_id
       : "",
 
-    preview: uploadRecipeImg.public_id,
+    preview: uploadRecipeImg.url,
 
     owner: _id,
   });
