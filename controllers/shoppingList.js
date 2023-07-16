@@ -3,22 +3,20 @@ const { ctrlWrapper } = require("../helpers/index");
 const Ingredients = require("../models/ingredientsModel");
 const { HttpError } = require("../helpers");
 
-
 const getIngredientsFromShoppingList = async (req, res, next) => {
   const { _id } = req.user;
-  const user = await User.find({ _id }, "shoppingList").populate({
-    path: "ingredient",
-    model: Ingredients,
-    strictPopulate: false,
-  });
+  const data = await User.findById(_id).populate(
+    "shoppingList",
+    null,
+    Ingredients
+  );
 
-  if (user) {
-    const result = user;
+  if (data.shoppingList.length) {
     res.status(200).json({
-      data: result,
+      data: data.shoppingList,
     });
-  } else if (!user.addShoppingListBy.length) {
-    res.status(200).json({
+  } else {
+    res.status(404).json({
       message: `Shopping list is empty`,
     });
   }
@@ -72,7 +70,7 @@ const removeIngredientsFromShoppingList = async (req, res, next) => {
       $pull: { shoppingList: { _id: idToDelete } },
     }
   );
-  res.status(200).json({
+  res.status(209).json({
     message: "Ingredient deleted from shopping list",
   });
 };

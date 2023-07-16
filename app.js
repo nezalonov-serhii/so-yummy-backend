@@ -79,10 +79,7 @@ app.use("/api/search", searchRouter);
 app.use("/api/own-recipes", ownRecipesRouter);
 app.use("/api/favorite", favoriteRouter);
 app.use("/api/popular-recipe", popularRouter);
-
 app.use("/api/shopping-list", shoppingListRouter);
-// app.use("/api/shopping-list", shoppingRouter);
-
 app.use("/api/subscribe", subscribeRouter)
 
 
