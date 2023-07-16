@@ -8,22 +8,15 @@ const fs = require("fs/promises");
 const getOwnRecipes = async (req, res, next) => {
   const { _id } = req.user;
 
-  const user = await User.find({ _id }, "ownRecipes").populate({
-    path: "ownRecipes",
-    populate: {
-      path: "_id",
-      model: Recipe,
-    },
-  });
+  const data = await User.findById(_id).populate('ownRecipes', null, Recipe);
 
-  if (user) {
-    const result = user;
+  if (data) {
     res.status(200).json({
-      data: result,
+      data
     });
-  } else if (!user.ownRecipes.length) {
+  } else if (!data.ownRecipes.length) {
     res.status(200).json({
-      message: `User ${user.name} does not have own recipes`,
+      message: `User ${data.name} does not have own recipes`,
     });
   }
 };
@@ -38,7 +31,8 @@ const postOwnRecipe = async (req, res, next) => {
   const recipe = req.body;
   let uploadRecipeImg = {};
   let temporaryName = "";
-  const instructs = recipe.instructions.split(",").join("\r\n");
+  const instructs = recipe.instructions.join("\r\n");
+
   console.log("recipe", recipe);
   if (req.file) {
     temporaryName = req.file.path;
