@@ -48,7 +48,9 @@ const { email } = req.body;
     subscribe: true,
   });
   if (user.subscribe) {
-   throw HttpError("You are already subscribed to the newsletter.");
+    res.status(409).json({
+       message: 'You are already subscribed to the newsletter'
+    })
   }
 
     await sendEmail(subscribeEmail);
