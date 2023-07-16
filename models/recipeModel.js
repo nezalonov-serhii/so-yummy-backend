@@ -13,9 +13,15 @@ const recipeSchema = new Schema({
     type: String,
     default: "",
   },
-
+  // instructions: {
+  //   type: Array,
+  //   required: [true, "Set the instructions"],
+  // },
   instructions: {
     type: Array,
+    items: {
+      type: String
+    },
     required: [true, "Set the instructions"],
   },
   description: {
@@ -62,7 +68,8 @@ const recipeSchema = new Schema({
   },
   ingredients: [
     {
-      id: String, measure: String
+      id: String,
+      measure: String
     },
   ],
 });

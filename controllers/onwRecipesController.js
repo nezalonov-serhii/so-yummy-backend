@@ -10,8 +10,6 @@ const getOwnRecipes = async (req, res, next) => {
 
   const data = await User.findById(_id).populate('ownRecipes', null, Recipe);
 
-  //
-
   if (data) {
     res.status(200).json({
       data
@@ -25,10 +23,16 @@ const getOwnRecipes = async (req, res, next) => {
 
 const postOwnRecipe = async (req, res, next) => {
   const { _id } = req.user;
+
+  const ingredients =
+    typeof req.body.ingredients === "string"
+      ? JSON.parse(req.body.ingredients)
+      : req.body.ingredients;
   const recipe = req.body;
   let uploadRecipeImg = {};
   let temporaryName = "";
   const instructs = recipe.instructions.join("\r\n");
+
   console.log("recipe", recipe);
   if (req.file) {
     temporaryName = req.file.path;
@@ -38,6 +42,7 @@ const postOwnRecipe = async (req, res, next) => {
   const newRecipe = await Recipe.create({
     ...recipe,
     instructions: instructs,
+    ingredients,
 
     thumb: uploadRecipeImg.hasOwnProperty("url") ? uploadRecipeImg.url : "",
     imgPublicId: uploadRecipeImg.hasOwnProperty("public_id")
@@ -48,12 +53,13 @@ const postOwnRecipe = async (req, res, next) => {
 
     owner: _id,
   });
-  console.log("new recipe", newRecipe);
+
   await User.findByIdAndUpdate(_id, {
     $push: { ownRecipes: { ...newRecipe } },
   });
 
   if (req.file) {
+    
     fs.unlink(temporaryName);
   }
 
