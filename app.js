@@ -17,7 +17,7 @@ const popularRouter = require("./routes/api/popularRoutes");
 
 const shoppingListRouter = require("./routes/api/shoppingListRouter");
 
-const shoppingRouter = require("./routes/api/shoppingRouter");
+// const shoppingRouter = require("./routes/api/shoppingRouter");
 const subscribeRouter = require('./routes/api/subscribeRoutes')
 
 
@@ -81,7 +81,7 @@ app.use("/api/favorite", favoriteRouter);
 app.use("/api/popular-recipe", popularRouter);
 
 app.use("/api/shopping-list", shoppingListRouter);
-app.use("/api/shopping-list", shoppingRouter);
+// app.use("/api/shopping-list", shoppingRouter);
 
 app.use("/api/subscribe", subscribeRouter)
 

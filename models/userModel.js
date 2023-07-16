@@ -29,40 +29,35 @@ const userSchema = new Schema({
     default: false,
   },
   favorites: {
-      type: Array,
-      default: [],
+    type: Array,
+    default: [],
   },
-   subscribe: {
-      type: Boolean,
-      default: false,
-    },
+  subscribe: {
+    type: Boolean,
+    default: false,
+  },
   ownRecipes: [
     {
       id: {
         type: Schema.Types.ObjectId,
-        ref: "recipes"
+        ref: "recipes",
       },
     },
   ],
 
-  addShoppingListBy: [
+  shoppingList: [
     {
-      id: {
-        type: String,
-        ref: "ingredients"
+      ingredient: {
+        type: Schema.Types.ObjectId,
+        ref: "ingredients",
       },
+
       measure: {
         type: String,
         required: [true, "Set the measure"],
       },
     },
   ],
-
-  shopping:{
-    type: Array,
-    default: [],
-  },
-
   token: {
     type: String,
     default: "",
@@ -103,16 +98,16 @@ module.exports = model("user", userSchema);
  *           description: Email of new user, must be unique through database
  *         password:
  *           type: string
- *           description: User password      
- *   
+ *           description: User password
+ *
  *   userLoginResponse:
  *     type: object
  *     properties:
  *         token:
  *           type: string
  *           description: User token
- *         
- *   
+ *
+ *
  *   userRegisterResponse:
  *     type: object
  *     properties:
@@ -150,7 +145,7 @@ module.exports = model("user", userSchema);
  *         token:
  *           type: string
  *           description: JSON token
- * 
+ *
  *   userUpdateAvatarAndName:
  *      type: object
  *      properties:
@@ -159,4 +154,4 @@ module.exports = model("user", userSchema);
  *          avatar:
  *              type: string
  *              format: binary
-*/
+ */
