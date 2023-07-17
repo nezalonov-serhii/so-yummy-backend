@@ -57,11 +57,6 @@ const recipeSchema = new Schema({
       ref: "user",
     },
   ],
-  favorites: {
-    type: [Schema.Types.ObjectId],
-    ref: "user",
-    default: [],
-  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: "user",
