@@ -26,6 +26,7 @@ const searchQueryValidation = Joi.object({
     .required("Enter query, at least 3 characters"),
 });
 
+
 // const validateCats = async (body) => {
 //   let validation;
 //       try {
@@ -40,12 +41,15 @@ const searchQueryValidation = Joi.object({
 //     }
 //     return validation
 // }
+
 const postOwnRecipeValidation = Joi.object({
   title: Joi.string().trim().required("Enter Recipe title"),
   category: Joi.string().trim().required("Enter category"),
   description: Joi.string(),
+
   instructions: Joi.array().required("Enter instructions"),
   ingredients: Joi.array().required(),
+
   time: Joi.string().required(),
   recipeImg: Joi.string()
 });

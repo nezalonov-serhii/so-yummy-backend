@@ -92,7 +92,7 @@ const getRecipeByCategory = async (req, res, next) => {
 
 const getRecipeById = async (req, res, next) => {
   const { id } = req.params;
-  // console.log("category: id", id);
+
   const result = await Recipe.findById(id).populate({
     path: "ingredients",
     populate: { path: "id", model: Ingredients },
