@@ -1,4 +1,3 @@
-const { HttpError } = require("../helpers");
 
 const validateRequest = () => {
   const func = (req, res, next) => {
@@ -7,10 +6,7 @@ const validateRequest = () => {
     ingredients = JSON.parse(ingredients);
 
     req.body = { ...req.body, instructions, ingredients };
-    if (error) {
-      next(HttpError(400, error.message));
-    }
-
+   
     next();
   };
 
