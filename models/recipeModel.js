@@ -1,72 +1,77 @@
 const { Schema, model } = require("mongoose");
 
 const recipeSchema = new Schema({
-  title: {
-    type: String,
-    required: [true, "Set recipe title"],
-  },
-  category: {
-    type: String,
-    required: [true, "Set recipe category"],
-  },
-  area: {
-    type: String,
-    default: "",
-  },
-  // instructions: {
-  //   type: Array,
-  //   required: [true, "Set the instructions"],
-  // },
-  instructions: {
-    type: Array,
-    items: {
-      type: String
-    },
-    required: [true, "Set the instructions"],
-  },
-  description: {
-    type: String,
-    required: [true, "Set the description"],
-  },
-  thumb: {
-    type: String,
-    default: "",
-  },
-  imgPublicId: {
-    type: String,
-  },
-  preview: {
-    type: String,
-    default: "",
-  },
-  time: {
-    type: String,
-    required: [true, "Set the time"],
-  },
-  youtube: {
-    type: String,
-    default: "",
-  },
-  tags: {
-    type: Array,
-    default: [],
-  },
-  isLikedBy: [
-    {
+   title: {
+      type: String,
+      required: [true, "Set recipe title"],
+   },
+   category: {
+      type: String,
+      required: [true, "Set recipe category"],
+   },
+   area: {
+      type: String,
+      default: "",
+   },
+   // instructions: {
+   //   type: Array,
+   //   required: [true, "Set the instructions"],
+   // },
+   instructions: {
+      type: Array,
+      items: {
+         type: String,
+      },
+      required: [true, "Set the instructions"],
+   },
+   description: {
+      type: String,
+      required: [true, "Set the description"],
+   },
+   thumb: {
+      type: String,
+      default: "",
+   },
+   imgPublicId: {
+      type: String,
+   },
+   preview: {
+      type: String,
+      default: "",
+   },
+   time: {
+      type: String,
+      required: [true, "Set the time"],
+   },
+   youtube: {
+      type: String,
+      default: "",
+   },
+   tags: {
+      type: Array,
+      default: [],
+   },
+   isLikedBy: [
+      {
+         type: Schema.Types.ObjectId,
+         ref: "user",
+      },
+   ],
+   favorites: {
+      type: [Schema.Types.ObjectId],
+      ref: "user",
+      default: [],
+   },
+   owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
-    },
-  ],
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: "user",
-  },
-  ingredients: [
-    {
-      id: String,
-      measure: String
-    },
-  ],
+   },
+   ingredients: [
+      {
+         id: String,
+         measure: String,
+      },
+   ],
 });
 
 module.exports = model("recipes", recipeSchema);
