@@ -3,7 +3,8 @@ const router = express.Router();
 const authenticate = require("../../middlewares/authenticate");
 const ownRecipesController = require("../../controllers/onwRecipesController");
 const { upload } = require("../../middlewares/avatarsMiddleware");
-const {validateBody} = require('../../middlewares/validateBody')
+const { validateBody } = require('../../middlewares/validateBody')
+const {validateRequest} = require('../../middlewares/validateRequest')
 const schemas = require('../../schemas/validation')
 
 
@@ -89,7 +90,7 @@ router.get("/", ownRecipesController.getOwnRecipes);
  *                  $ref: "#/components/schemas/Recipe"
  */
 
-router.post("/", upload.single("recipeImg"), validateBody(schemas.postOwnRecipeValidation), ownRecipesController.postOwnRecipe);
+router.post("/", upload.single("recipeImg"), validateRequest(), validateBody(schemas.postOwnRecipeValidation), ownRecipesController.postOwnRecipe);
 
 /**
  * @openapi
