@@ -26,25 +26,30 @@ const searchQueryValidation = Joi.object({
     .required("Enter query, at least 3 characters"),
 });
 
-const validateCats = async (body) => {
-  let validation;
-      try {
-        validation = await Categories.find({ name: body });
-        if (!validation.hasOwnProperty('name')) {
-          return HttpError(404);
-        }
-        return true;
-      } catch (error) {
-        HttpError(error);
-    }
-    return validation
-}
+
+// const validateCats = async (body) => {
+//   let validation;
+//       try {
+//         validation = await Categories.find({ name: body });
+
+//         if (!validation.hasOwnProperty('name')) {
+//           return HttpError(404);
+//         }
+//         return true;
+//       } catch (error) {
+//         HttpError(error);
+//     }
+//     return validation
+// }
+
 const postOwnRecipeValidation = Joi.object({
   title: Joi.string().trim().required("Enter Recipe title"),
   category: Joi.string().trim().required("Enter category"),
   description: Joi.string(),
-  instructions: Joi.string().required("Enter instructions"),
-  ingredients: Joi.string().required(),
+
+  instructions: Joi.array().required("Enter instructions"),
+  ingredients: Joi.array().required(),
+
   time: Joi.string().required(),
   recipeImg: Joi.string()
 });
