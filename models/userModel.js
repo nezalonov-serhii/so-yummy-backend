@@ -32,6 +32,11 @@ const userSchema = new Schema({
       type: Array,
       default: [],
   },
+  //  favorites: {
+  //   type: [Schema.Types.ObjectId],
+  //   ref: "user",
+  //   default: [],
+  // },
    subscribe: {
       type: Boolean,
       default: false,

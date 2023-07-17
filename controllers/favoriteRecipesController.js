@@ -26,7 +26,6 @@ const addRecepiesToFavorite = async (req, res, next) => {
 
   const favoriteRecipe = await Recipe.findOneAndUpdate(
     { _id: id },
-    { $push: { favorites: _id } },
     { new: true }
   );
 
@@ -73,15 +72,14 @@ const removeFavoriteRecipe = async (req, res, next) => {
     { new: true }
   );
 
-  const removeFavoriteFromRecipe = await Recipe.findOneAndUpdate(
+  const removeRecipe = await Recipe.findOneAndUpdate(
     { _id: id },
-    { $pull: { favorites: _id } },
     { new: true }
   );
 
   res.status(200).json({
     message: "Recipe was deleted success",
-    recipe: removeFavoriteFromRecipe,
+    recipe: removeRecipe,
   });
 };
 
