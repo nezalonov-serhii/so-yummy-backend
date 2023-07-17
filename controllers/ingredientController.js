@@ -1,7 +1,7 @@
 const Ingredient = require("../models/ingredientsModel");
 const Recipe = require("../models/recipeModel");
 const { ctrlWrapper } = require("../helpers");
-const HttpError = require('../helpers/HttpError')
+const HttpError = require("../helpers/HttpError");
 
 const ingredientList = async (req, res, next) => {
   const result = await Ingredient.find();
@@ -20,7 +20,12 @@ const findRecipesByIngredient = async (req, res, next) => {
     name: { $regex: query, $options: "i" },
   });
   if (searchedIngredients.length === 0) {
-    throw HttpError(404, "ingredient not found");
+    // throw HttpError(404, "ingredient not found");
+    return res.status(200).json({
+      data: [],
+      message: "Such ingredient not found" 
+    })
+    
   }
 
   const ids = searchedIngredients.map((ingredient) => ingredient.id);
@@ -34,9 +39,8 @@ const findRecipesByIngredient = async (req, res, next) => {
       },
     },
   });
-   
+
   if (result.length === 0) {
-    
     throw HttpError(404, `Recipe with ingredient ${query} is not found`);
   }
 
