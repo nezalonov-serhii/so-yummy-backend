@@ -5,11 +5,10 @@ const { HttpError } = require("../helpers");
 
 const getIngredientsFromShoppingList = async (req, res, next) => {
   const { _id } = req.user;
-  const data = await User.findById(_id).populate(
-    "shoppingList",
-    null,
-    Ingredients
-  );
+  const data = await User.findById(_id).populate({
+    path: "shoppingList",
+    populate: { path: "ingredient", model: Ingredients },
+  });
 
   if (data.shoppingList.length) {
     res.status(200).json({
@@ -44,7 +43,7 @@ const addIngredientsInShoppingList = async (req, res, next) => {
       return obj.ingredient == ingredient;
     });
     if (index !== -1) {
-      console.log("measure", user.shoppingList[index].measure);
+      // console.log("measure", user.shoppingList[index].measure);
       user.shoppingList[index].measure = user.shoppingList[
         index
       ].measure.concat("/r/n", newMeasure);

@@ -26,6 +26,7 @@ const postOwnRecipe = async (req, res, next) => {
   const recipe = req.body;
   let uploadRecipeImg = {};
   let temporaryName = "";
+  console.log('recipe.instructions', req.body)
   const instructs = recipe.instructions.join("\r\n");
 
   if (req.file) {
