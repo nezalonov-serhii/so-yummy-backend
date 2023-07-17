@@ -18,8 +18,9 @@ const getOwnRecipes = async (req, res, next) => {
       data: data.ownRecipes,
     });
   } else {
-    res.status(404).json({
+    res.status(200).json({
       message: `User does not have own recipes`,
+      data: [],
     });
   }
 };

@@ -15,8 +15,9 @@ const getIngredientsFromShoppingList = async (req, res, next) => {
       data: data.shoppingList,
     });
   } else {
-    res.status(404).json({
+    res.status(200).json({
       message: `Shopping list is empty`,
+      data: []
     });
   }
 };
