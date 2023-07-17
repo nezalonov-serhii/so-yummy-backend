@@ -67,7 +67,7 @@ const postOwnRecipe = async (req, res, next) => {
     fs.unlink(temporaryName);
   }
 
-  res.status(200).json({
+  res.status(201).json({
     message: `Recipe ${newRecipe.title} added`,
     recipe: newRecipe,
   });
@@ -91,7 +91,7 @@ const deleteOwnRecipe = async (req, res, next) => {
     },
     { new: true }
   );
-  res.status(200).json({
+  res.status(204).json({
     message: `Recipe deleted`,
   });
 };

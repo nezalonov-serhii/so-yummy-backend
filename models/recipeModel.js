@@ -41,7 +41,6 @@ const recipeSchema = new Schema({
    },
    time: {
       type: String,
-      required: [true, "Set the time"],
    },
    youtube: {
       type: String,
@@ -110,7 +109,6 @@ module.exports = model("recipes", recipeSchema);
  *         - title
  *         - area
  *         - instructions
- *         - time
  *       properties:
  *         id:
  *           type: string
@@ -179,47 +177,4 @@ module.exports = model("recipes", recipeSchema);
  *           items:
  *             $ref: "#/components/schemas/Recipe"
  *
- *     OwnRecipeAdd:
- *       type: object
- *       required:
- *         - title
- *         - category
- *         - instructions
- *         - description
- *         - time
- *         - area
- *       properties:
- *         title:
- *           type: string
- *         category:
- *           type: string
- *         instructions:
- *           type: array
- *           items:
- *            type: string
- *         ingredients:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               _id:
- *                 type: string
- *               id:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                   name:
- *                     type: string
- *               measure:
- *                  type: string
- *         description:
- *           type: string
- *         time:
- *           type: string
- *         area:
- *           type: string
- *         recipe:
- *           type: string
- *           format: binary
  */

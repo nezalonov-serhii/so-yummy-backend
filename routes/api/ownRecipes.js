@@ -54,29 +54,31 @@ router.get("/", ownRecipesController.getOwnRecipes);
  *       multipart/form-data:
  *        schema:
  *         type: object
- *         required: [title, category, instructions, ingredients, time]
+ *         required: [title, category, description, instructions, ingredients]
  *         properties:
  *              title:
  *                  type: string
  *              category:
  *                  type: string
- *              instructions:
- *                  type: array
- *                  items:
- *                   type: string
- *                  examlpe: [Description of preparation]
- *              ingredients:
- *                  type: array
- *                  items:
- *                      type: object
- *                      properties:
- *                          id:
- *                              type: string
- *                          measure:
- *                              type: string
- *              time:
+ *              description:
  *                  type: string
- *              recipe:
+ *              instructions:
+ *                  payload:
+ *                      type: array
+ *                      items:
+ *                          type: string
+ *                      examlpe: [Description of preparation]
+ *              ingredients:
+ *                  payload:
+ *                      type: array
+ *                      items:
+ *                          type: object
+ *                          properties:
+ *                              id:
+ *                                  type: string
+ *                              measure:
+ *                                  type: string
+ *              recipeImg:
  *                  type: string
  *                  format: binary
  *    responses:
@@ -105,7 +107,7 @@ router.post("/", upload.single("recipeImg"), validateRequest(), validateBody(sch
  *            schema:
  *              type: string
  *      responses:
- *          200:
+ *          204:
  *              description: Onw recipe deleted
  *              content:
  *                  application/json:
