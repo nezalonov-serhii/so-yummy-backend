@@ -4,6 +4,7 @@ const Ingredients = require("../models/ingredientsModel");
 const { ctrlWrapper } = require("../helpers/index");
 const { uploadRecipeImage, deleteRecipeImg } = require("../helpers/cloudinary");
 const fs = require("fs/promises");
+const { default: mongoose } = require("mongoose");
 
 const getOwnRecipes = async (req, res, next) => {
   const { _id } = req.user;
@@ -33,7 +34,7 @@ const postOwnRecipe = async (req, res, next) => {
   const recipe = req.body;
   let uploadRecipeImg = {};
   let temporaryName = "";
-  console.log('recipe.instructions', req.body)
+  console.log("recipe.instructions", req.body);
   const instructs = recipe.instructions.join("\r\n");
 
   if (req.file) {
@@ -76,12 +77,18 @@ const deleteOwnRecipe = async (req, res, next) => {
   const { id: idToDelete } = req.params;
 
   const deleted = await Recipe.findByIdAndDelete(idToDelete);
-  await deleteRecipeImg(deleted.imgPublicId);
+  console.log("deleted.imgPublicId", deleted.imgPublicId);
+  if (deleted.imgPublicId) {
+    console.log("IF deleted.imgPublicId", deleted.imgPublicId);
+    await deleteRecipeImg(deleted.imgPublicId);
+  }
+
   await User.findOneAndUpdate(
     { _id: _id },
     {
-      $pull: { ownRecipes: { _id: idToDelete } },
-    }
+      $pull: { ownRecipes: idToDelete },
+    },
+    { new: true }
   );
   res.status(200).json({
     message: `Recipe deleted`,
