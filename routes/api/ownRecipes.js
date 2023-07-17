@@ -7,6 +7,7 @@ const { validateBody } = require('../../middlewares/validateBody')
 const {validateRequest} = require('../../middlewares/validateRequest')
 const schemas = require('../../schemas/validation')
 
+
 router.use(authenticate);
 /**
  * @openapi
@@ -119,3 +120,5 @@ router.post("/", upload.single("recipeImg"), validateRequest(), validateBody(sch
 router.patch("/:id", ownRecipesController.deleteOwnRecipe);
 
 module.exports = router;
+
+
