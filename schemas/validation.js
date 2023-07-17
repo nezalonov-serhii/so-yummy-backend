@@ -46,11 +46,9 @@ const postOwnRecipeValidation = Joi.object({
   title: Joi.string().trim().required("Enter Recipe title"),
   category: Joi.string().trim().required("Enter category"),
   description: Joi.string(),
-
   instructions: Joi.array().required("Enter instructions"),
   ingredients: Joi.array().required(),
-
-  time: Joi.string().required(),
+  time: Joi.string(),
   recipeImg: Joi.string()
 });
 

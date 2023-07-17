@@ -44,7 +44,7 @@ const addIngredientsInShoppingList = async (req, res, next) => {
       return obj.ingredient == ingredient;
     });
     if (index !== -1) {
-      // console.log("measure", user.shoppingList[index].measure);
+    
       user.shoppingList[index].measure = user.shoppingList[
         index
       ].measure.concat("/r/n", newMeasure);
@@ -56,7 +56,6 @@ const addIngredientsInShoppingList = async (req, res, next) => {
 
   res.status(200).json({
     message: `New ingredient added`,
-
     data: user.shoppingList,
   });
 };
