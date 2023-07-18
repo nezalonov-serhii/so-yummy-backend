@@ -17,7 +17,7 @@ const getIngredientsFromShoppingList = async (req, res, next) => {
   } else {
     res.status(200).json({
       message: `Shopping list is empty`,
-      data: []
+      data: [],
     });
   }
 };
@@ -33,7 +33,7 @@ const addIngredientsInShoppingList = async (req, res, next) => {
   const newIngredient = {
     ingredient,
     measure: newMeasure,
-    ingredientId: ingredient
+    ingredientId: ingredient,
   };
 
   const user = await User.findById(_id);
@@ -45,7 +45,6 @@ const addIngredientsInShoppingList = async (req, res, next) => {
       return obj.ingredient == ingredient;
     });
     if (index !== -1) {
-    
       user.shoppingList[index].measure = user.shoppingList[
         index
       ].measure.concat("/r/n", newMeasure);
@@ -64,13 +63,14 @@ const addIngredientsInShoppingList = async (req, res, next) => {
 const removeIngredientsFromShoppingList = async (req, res, next) => {
   const { _id } = req.user;
   const { id: idToDelete } = req.params;
+
   await User.findOneAndUpdate(
     { _id: _id },
     {
-      $pull: { shoppingList: {ingredient: idToDelete } },
+      $pull: { shoppingList: { $in: [idToDelete] } },
     }
   );
-  res.status(209).json({
+  res.status(200).json({
     message: "Ingredient deleted from shopping list",
   });
 };

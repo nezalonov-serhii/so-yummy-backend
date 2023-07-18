@@ -1,5 +1,6 @@
 const Recipe = require("../models/recipeModel");
 const Ingredients = require("../models/ingredientsModel");
+const categoriesModel = require('../models/categoriesModel')
 const { ctrlWrapper } = require("../helpers/index");
 
 const getAllRecipes = async (req, res, next) => {
@@ -17,7 +18,7 @@ const getAllRecipes = async (req, res, next) => {
 };
 
 const getCategoriesList = async (req, res, next) => {
-  const result = await Recipe.distinct("category");
+  const result = await categoriesModel.distinct("name");
   if (!result.length) {
     res.status(404).json({
       code: 404,
