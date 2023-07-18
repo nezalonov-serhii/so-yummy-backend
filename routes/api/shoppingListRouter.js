@@ -65,7 +65,7 @@ router.get('/', shoppingList.getIngredientsFromShoppingList);
  *                  type: string
  *    responses:
  *      200:
- *        description: Ingredient saves successfully
+ *        description: Ingredient saved successfully
  *        content:
  *          application/json:
  *            schema:
@@ -77,6 +77,12 @@ router.get('/', shoppingList.getIngredientsFromShoppingList);
  *                          type: string
  *                      measure:
  *                          type: string
+ *      404:
+ *          description: Ingredient not found
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: "#/components/schemas/Error"
  */
 
 
@@ -96,7 +102,7 @@ router.post('/', shoppingList.addIngredientsInShoppingList);
  *           schema:
  *              type: string
  *    responses:
- *      209:
+ *      200:
  *        description: Delete successfully
  *        content:
  *          application/json:
