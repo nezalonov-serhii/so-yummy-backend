@@ -67,7 +67,7 @@ const removeIngredientsFromShoppingList = async (req, res, next) => {
   await User.findOneAndUpdate(
     { _id: _id },
     {
-      $pull: { shoppingList: { $in: [idToDelete] } },
+      $pull: { shoppingList: {ingredient: idToDelete } },
     }
   );
   res.status(200).json({
