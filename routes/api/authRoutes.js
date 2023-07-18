@@ -85,6 +85,13 @@ router.post("/login", validateBody(schemas.userLoginValidation), AuthController.
  *             properties:
  *                  message:
  *                      type: string
+ *     401:
+ *      description: User is not authorized
+ *      content:
+ *         application/json:
+ *           schema:
+ *              $ref: "#components/schemas/Error"
+ *      
  */
 
 router.post("/logout", authenticate, AuthController.userLogout);

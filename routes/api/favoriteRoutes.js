@@ -35,24 +35,25 @@ router.use(authenticate)
  *                                  type: string
  *                              recipe:
  *                                  $ref: "#/components/schemas/Recipe" 
- *          404:
- *              description: User not found
+ *          
+ *          401:
+ *              description: User is not authorized
  *              content:
  *                  application/json:
  *                      schema:
- *                          type: object
- *                          properties:
- *                              message:
- *                                  type: string
+ *                          $ref: "#components/schemas/Error"
+ *          404:
+ *              description: Item or user not not found
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: "#components/schemas/Error"
  *          409:
  *              description: Recipe is already added to user
  *              content:
  *                  application/json:
  *                      schema:
- *                          type: object
- *                          properties:
- *                              message:
- *                                  type: string 
+ *                          $ref: "#components/schemas/Error"
  */
 router.post('/:id', favoriteRecepiesController.addRecepiesToFavorite)
 
@@ -68,9 +69,18 @@ router.post('/:id', favoriteRecepiesController.addRecepiesToFavorite)
  *                  content:
  *                      application/json:
  *                          schema:
- *                              type: array
- *                              items:
- *                                  $ref: "#/components/schemas/Recipe"
+ *                              type: object
+ *                              properties:
+ *                                  favoriteRecipes:
+ *                                      type: array
+ *                                      items:
+ *                                          $ref: "#/components/schemas/Recipe"
+ *              401:
+ *                 description: User is not authorized
+ *                 content:
+ *                    application/json:
+ *                        schema:
+ *                            $ref: "#components/schemas/Error"
  */
 
 router.get('/', favoriteRecepiesController.getFavoriteRecipes)

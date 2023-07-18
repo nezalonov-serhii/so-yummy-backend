@@ -1,3 +1,4 @@
+
 const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema({
@@ -43,6 +44,11 @@ const userSchema = new Schema({
       ingredient: {
         type: Schema.Types.ObjectId,
         ref: "ingredients",
+      },
+
+      ingredientId: {
+        type: String,
+        default: ''
       },
 
       measure: {
@@ -147,4 +153,9 @@ module.exports = model("user", userSchema);
  *          avatar:
  *              type: string
  *              format: binary
+ *   Error:
+ *      type: object
+ *      properties:
+ *         message:
+ *           type: string
  */

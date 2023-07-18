@@ -33,6 +33,7 @@ const addIngredientsInShoppingList = async (req, res, next) => {
   const newIngredient = {
     ingredient,
     measure: newMeasure,
+    ingredientId: ingredient
   };
 
   const user = await User.findById(_id);
@@ -66,7 +67,7 @@ const removeIngredientsFromShoppingList = async (req, res, next) => {
   await User.findOneAndUpdate(
     { _id: _id },
     {
-      $pull: { shoppingList: { _id: idToDelete } },
+      $pull: { shoppingList: {ingredient: idToDelete } },
     }
   );
   res.status(209).json({
