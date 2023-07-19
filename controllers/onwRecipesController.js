@@ -8,21 +8,49 @@ const { default: mongoose } = require("mongoose");
 
 const getOwnRecipes = async (req, res, next) => {
   const { _id } = req.user;
+  const pageNumber = 1;
+  const nPerPage = 6;
+  let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
+  // const data = await User.findById(_id).populate("ownRecipes", null, Recipe);
 
-  const data = await User.findById(_id).populate("ownRecipes", null, Recipe);
 
 
-  if (data.ownRecipes.length) {
+  const result = await User.aggregate([
+    { $match: { _id: _id } },
+    { $unwind: "$ownRecipes" },
+    { $project: { _id: 0, ownRecipes: 1 } },
+    { $sort: { ownRecipes: 1 } },
+      {$facet: {
+        metadata: [{ $count: "total" }],
+        data: [{ $skip: skip }, { $limit: nPerPage }],
+      },
+    },
+      
+  ]);
 
-    res.status(200).json({
-      data: data.ownRecipes,
-    });
-  } else {
-    res.status(200).json({
-      message: `User does not have own recipes`,
-      data: [],
-    });
-  }
+  await Recipe.populate(result, {
+    path: "data.ownRecipes", model: Recipe
+
+  });
+
+
+  res.status(200).json({
+    message: `recipes`,
+    data: result[0].data, 
+    qty: Object.assign({}, result[0].metadata)
+  });
+
+  // if (data.ownRecipes.length) {
+
+  //   res.status(200).json({
+  //     data: data.ownRecipes,
+  //   });
+  // } else {
+  //   res.status(200).json({
+  //     message: `User does not have own recipes`,
+  //     data: [],
+  //   });
+  // }
 };
 
 const postOwnRecipe = async (req, res, next) => {
@@ -63,7 +91,6 @@ const postOwnRecipe = async (req, res, next) => {
   });
 
   if (req.file) {
-    
     fs.unlink(temporaryName);
   }
 
