@@ -15,17 +15,18 @@ const ingredientList = async (req, res, next) => {
 
 const findRecipesByIngredient = async (req, res, next) => {
   const { query } = req.body;
+  const pageNumber = 1;
+  const nPerPage = 6;
+  let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
 
   const searchedIngredients = await Ingredient.find({
     name: { $regex: query, $options: "i" },
   });
   if (searchedIngredients.length === 0) {
-    // throw HttpError(404, "ingredient not found");
     return res.status(200).json({
       data: [],
-      message: "Such ingredient not found" 
-    })
-    
+      message: "Such ingredient not found",
+    });
   }
 
   const ids = searchedIngredients.map((ingredient) => ingredient.id);
@@ -38,7 +39,7 @@ const findRecipesByIngredient = async (req, res, next) => {
         },
       },
     },
-  });
+  }).sort({_id: -1}).skip(skip).limit(nPerPage);
 
   if (result.length === 0) {
     throw HttpError(404, `Recipe with ingredient ${query} is not found`);

@@ -1,19 +1,34 @@
 const Recipe = require("../models/recipeModel");
 const Ingredients = require("../models/ingredientsModel");
-const categoriesModel = require('../models/categoriesModel')
+const categoriesModel = require("../models/categoriesModel");
 const { ctrlWrapper } = require("../helpers/index");
 
 const getAllRecipes = async (req, res, next) => {
-  const result = await Recipe.find({}).populate({
-    path: "ingredients",
-    populate: { path: "id", model: Ingredients },
+  const pageNumber = 1;
+  const nPerPage = 6;
+  let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
+
+  const result = await Recipe.aggregate([
+    { $match: {} },
+    { $sort: { _id: 1 } },
+    {
+      $facet: {
+        metadata: [{ $count: "total" }],
+        data: [{ $skip: skip }, { $limit: nPerPage }],
+      },
+    },
+  ]);
+
+  await Ingredients.populate(result, {
+    path: "data.ingredients.id",
+    model: Ingredients,
   });
 
   res.status(200).json({
     code: 200,
     message: "Success",
-    data: result,
-    qty: result.length,
+    data: result[0].data,
+    qty: Object.assign({}, result[0].metadata),
   });
 };
 
@@ -50,8 +65,8 @@ const mainPageRecipes = async (req, res, next) => {
       $group: {
         _id: "$category",
         mainPage: {
-            $push: {
-              id: "$_id",
+          $push: {
+            id: "$_id",
             title: "$title",
             thumb: "$thumb",
             preview: "$preview",
@@ -59,7 +74,6 @@ const mainPageRecipes = async (req, res, next) => {
           },
         },
       },
-      
     },
   ]);
   res.status(200).json({
@@ -71,13 +85,32 @@ const mainPageRecipes = async (req, res, next) => {
 
 const getRecipeByCategory = async (req, res, next) => {
   const { category } = req.params;
+  const pageNumber = 1;
+  const nPerPage = 6;
+  let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
 
-  const result = await Recipe.find({ category })
-    .populate({
-    path: "ingredients",
-    populate: { path: "id", model: Ingredients },
+  const result = await Recipe.aggregate([
+    { $match: { category } },
+    { $sort: { _id: 1 } },
+    {
+      $facet: {
+        metadata: [{ $count: "total" }],
+        data: [{ $skip: skip }, { $limit: nPerPage }],
+      },
+    },
+  ]);
+
+  await Ingredients.populate(result, {
+    path: "data.ingredients.id",
+    model: Ingredients,
   });
-  if (!result.length) {
+
+  // const result = await Recipe.find({ category }).populate({
+  //   path: "ingredients",
+  //   populate: { path: "id", model: Ingredients },
+  // });
+  //
+  if (!result[0].data.length) {
     res.status(404).json({
       code: 404,
       message: "No such category",
@@ -87,7 +120,8 @@ const getRecipeByCategory = async (req, res, next) => {
   res.status(200).json({
     code: 200,
     message: "Success",
-    data: result,
+    data: result[0].data,
+    qty: Object.assign({}, result[0].metadata),
   });
 };
 
