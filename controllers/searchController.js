@@ -3,8 +3,9 @@ const { ctrlWrapper } = require("../helpers/index");
 
 const searchByQuery = async (req, res, next) => {
   const { query } = req.body;
-  let pageNumber = 1;
-  let nPerPage = 8;
+  const { page, limit } = req.query;
+  let pageNumber = page ? page : 1;
+  let nPerPage = limit ? limit : 8;
   let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
 
   // const result = await Recipe.find({ title: { $regex: query, $options: 'i'} }, null, {

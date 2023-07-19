@@ -8,8 +8,9 @@ const { default: mongoose } = require("mongoose");
 
 const getOwnRecipes = async (req, res, next) => {
   const { _id } = req.user;
-  let pageNumber = 1;
-  let nPerPage = 8;
+  const { page, limit } = req.query;
+   let pageNumber = page ? page : 1;
+  let nPerPage = limit ? limit: 8;
   let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
   // const data = await User.findById(_id).populate("ownRecipes", null, Recipe);
 
