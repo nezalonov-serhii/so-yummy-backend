@@ -4,8 +4,8 @@ const categoriesModel = require("../models/categoriesModel");
 const { ctrlWrapper } = require("../helpers/index");
 
 const getAllRecipes = async (req, res, next) => {
-  const pageNumber = 1;
-  const nPerPage = 6;
+  let pageNumber = 1;
+  let nPerPage = 8;
   let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
 
   const result = await Recipe.aggregate([
@@ -85,8 +85,8 @@ const mainPageRecipes = async (req, res, next) => {
 
 const getRecipeByCategory = async (req, res, next) => {
   const { category } = req.params;
-  const pageNumber = 1;
-  const nPerPage = 6;
+  let pageNumber = 1;
+  let nPerPage = 8;
   let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
 
   const result = await Recipe.aggregate([

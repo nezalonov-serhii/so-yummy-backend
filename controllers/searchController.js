@@ -3,8 +3,8 @@ const { ctrlWrapper } = require("../helpers/index");
 
 const searchByQuery = async (req, res, next) => {
   const { query } = req.body;
-  const pageNumber = 1;
-  const nPerPage = 6;
+  let pageNumber = 1;
+  let nPerPage = 8;
   let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
 
 
