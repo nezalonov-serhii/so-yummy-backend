@@ -39,8 +39,8 @@ const addRecepiesToFavorite = async (req, res, next) => {
 
 const getFavoriteRecipes = async (req, res, next) => {
   const { _id } = req.user;
-  const pageNumber = 1;
-  const nPerPage = 6;
+  let pageNumber = 1;
+  let nPerPage = 8;
   let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
 //   const user = await User.findOne({ _id });
 
