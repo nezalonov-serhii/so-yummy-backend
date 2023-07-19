@@ -7,13 +7,12 @@ const searchByQuery = async (req, res, next) => {
   let nPerPage = 8;
   let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
 
-
   // const result = await Recipe.find({ title: { $regex: query, $options: 'i'} }, null, {
   //    strictQuery: false,
   // });
 
- const result = await Recipe.aggregate([
-    { $match: { title: { $regex: query, $options: 'i'}} },
+  const result = await Recipe.aggregate([
+    { $match: { title: { $regex: query, $options: "i" } } },
     { $sort: { _id: 1 } },
     {
       $facet: {
@@ -24,9 +23,10 @@ const searchByQuery = async (req, res, next) => {
   ]);
 
   if (!result[0].data.length) {
-    res.status(404).json({
-      code: 404,
+    res.status(200).json({
+      code: 200,
       message: "No such recipe found",
+      data: []
     });
     return;
   }
@@ -34,7 +34,7 @@ const searchByQuery = async (req, res, next) => {
     code: 200,
     message: "Success",
     data: result[0].data,
-     qty: Object.assign({}, result[0].metadata),
+    qty: Object.assign({}, result[0].metadata),
   });
 };
 
