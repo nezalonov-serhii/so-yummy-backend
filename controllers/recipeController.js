@@ -28,7 +28,7 @@ const getAllRecipes = async (req, res, next) => {
     code: 200,
     message: "Success",
     data: result[0].data,
-    qty: Object.assign({}, result[0].metadata),
+    qty: result[0].metadata[0],
   });
 };
 
@@ -121,7 +121,7 @@ const getRecipeByCategory = async (req, res, next) => {
     code: 200,
     message: "Success",
     data: result[0].data,
-    qty: Object.assign({}, result[0].metadata),
+    qty: result[0].metadata[0],
   });
 };
 

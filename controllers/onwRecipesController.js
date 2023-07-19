@@ -13,44 +13,32 @@ const getOwnRecipes = async (req, res, next) => {
   let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
   // const data = await User.findById(_id).populate("ownRecipes", null, Recipe);
 
-
-
   const result = await User.aggregate([
     { $match: { _id: _id } },
     { $unwind: "$ownRecipes" },
     { $project: { _id: 0, ownRecipes: 1 } },
     { $sort: { ownRecipes: 1 } },
-      {$facet: {
+    {
+      $facet: {
         metadata: [{ $count: "total" }],
         data: [{ $skip: skip }, { $limit: nPerPage }],
       },
     },
-      
+    
   ]);
 
   await Recipe.populate(result, {
-    path: "data.ownRecipes", model: Recipe
-
+    path: "data.ownRecipes",
+    model: Recipe,
   });
-
 
   res.status(200).json({
     message: `recipes`,
-    data: result[0].data, 
-    qty: Object.assign({}, result[0].metadata)
+    data: result[0].data,
+    qty: result[0].metadata[0],
   });
 
-  // if (data.ownRecipes.length) {
 
-  //   res.status(200).json({
-  //     data: data.ownRecipes,
-  //   });
-  // } else {
-  //   res.status(200).json({
-  //     message: `User does not have own recipes`,
-  //     data: [],
-  //   });
-  // }
 };
 
 const postOwnRecipe = async (req, res, next) => {
@@ -113,10 +101,10 @@ const deleteOwnRecipe = async (req, res, next) => {
 
   await User.findOneAndUpdate(
     { _id: _id },
-    
-     {
+
+    {
       $pull: { favorites: idToDelete, ownRecipes: idToDelete },
-    },    
+    },
     { new: true }
   );
   res.status(204).json({

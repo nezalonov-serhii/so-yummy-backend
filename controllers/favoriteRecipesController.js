@@ -77,7 +77,7 @@ const getFavoriteRecipes = async (req, res, next) => {
   res.status(200).json({
     message: `recipes`,
     data: result[0].data, 
-    qty: Object.assign({}, result[0].metadata)
+    qty: result[0].metadata[0],
   });
 
 //   res.status(200).json({
