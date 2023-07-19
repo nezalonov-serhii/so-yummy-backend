@@ -2,7 +2,7 @@ const { ctrlWrapper } = require("../helpers/index");
 const { HttpError } = require("../helpers/index");
 const Recipe = require("../models/recipeModel");
 const User = require("../models/userModel");
-const Ingrediend = require('../models/ingredientsModel')
+const Ingrediend = require("../models/ingredientsModel");
 
 const addRecepiesToFavorite = async (req, res, next) => {
   const { id } = req.params;
@@ -39,29 +39,18 @@ const addRecepiesToFavorite = async (req, res, next) => {
 
 const getFavoriteRecipes = async (req, res, next) => {
   const { _id } = req.user;
-  let pageNumber = 1;
-  let nPerPage = 8;
+  const { page, limit } = req.query;
+  let pageNumber = page ? page : 1;
+  let nPerPage = limit ? limit: 8;
   let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
-//   const user = await User.findOne({ _id });
 
-//   if (!user) {
-//     throw HttpError(404, "User not found");
-//   }
-
-//   const favoriteRecipes = await Recipe.find({
-//     _id: { $in: user.favorites },
-//   });
-
-//   if (!favoriteRecipes) {
-//     throw HttpError(404, "Recipes not found");
-//    }
-   
-   const result = await User.aggregate([
+  const result = await User.aggregate([
     { $match: { _id: _id } },
     { $unwind: "$favorites" },
     { $project: { favorites: 1 } },
     { $sort: { favorites: 1 } },
-      {$facet: {
+    {
+      $facet: {
         metadata: [{ $count: "total" }],
         data: [{ $skip: skip }, { $limit: nPerPage }],
       },
@@ -69,21 +58,24 @@ const getFavoriteRecipes = async (req, res, next) => {
   ]);
 
   await Recipe.populate(result, {
-    path: "data.favorites", model: Recipe
-
+    path: "data.favorites",
+    model: Recipe,
   });
- await Ingrediend.populate(result, {path: "data.favorites.ingredients.id", model: Ingrediend})
+  await Ingrediend.populate(result, {
+    path: "data.favorites.ingredients.id",
+    model: Ingrediend,
+  });
 
   res.status(200).json({
     message: `recipes`,
-    data: result[0].data, 
+    data: result[0].data,
     qty: result[0].metadata[0],
   });
 
-//   res.status(200).json({
-//     favoriteRecipes,
-//     data: user.favorites.length ? user.favorites : [],
-//   });
+  //   res.status(200).json({
+  //     favoriteRecipes,
+  //     data: user.favorites.length ? user.favorites : [],
+  //   });
 };
 
 const removeFavoriteRecipe = async (req, res, next) => {
