@@ -39,10 +39,17 @@ const findRecipesByIngredient = async (req, res, next) => {
         },
       },
     },
-  }).sort({_id: -1}).skip(skip).limit(nPerPage);
+  })
+    .sort({ _id: -1 })
+    .skip(skip)
+    .limit(nPerPage);
 
   if (result.length === 0) {
-    throw HttpError(404, `Recipe with ingredient ${query} is not found`);
+    res.status(200).json({
+    code: 200,
+    message: "Recipes not found",
+    data: []
+    })
   }
 
   res.status(200).json({

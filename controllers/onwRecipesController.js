@@ -113,9 +113,13 @@ const deleteOwnRecipe = async (req, res, next) => {
 
   await User.findOneAndUpdate(
     { _id: _id },
+     {
+      $pull: { favorites: idToDelete },
+    },
     {
       $pull: { ownRecipes: idToDelete },
     },
+    
     { new: true }
   );
   res.status(204).json({
