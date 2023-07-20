@@ -15,9 +15,11 @@ const ingredientList = async (req, res, next) => {
 
 const findRecipesByIngredient = async (req, res, next) => {
   const { query } = req.body;
-    const { page, limit } = req.query;
-   let pageNumber = page ? page : 1;
+  const { page, limit } = req.query;
+  let pageNumber = page ? page : 1;
   let nPerPage = limit ? limit: 8;
+  
+  
   let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
 
   const searchedIngredients = await Ingredient.find({
