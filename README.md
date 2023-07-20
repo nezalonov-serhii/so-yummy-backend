@@ -16,4 +16,4 @@ You can see the work of the project here - https://nezalonov-serhii.github.io/so
 
 Swagger documentation: https://so-yummy-426w.onrender.com/api/api-docs
 
-Link to the interface https://github.com/nezalonov-serhii/so-yummy-frontend
+Link to the frontend https://github.com/nezalonov-serhii/so-yummy-frontend
