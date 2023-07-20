@@ -89,7 +89,7 @@ const getRecipeByCategory = async (req, res, next) => {
   const { page, limit } = req.query;
 
   let pageNumber = page ? page : 1;
-  let nPerPage = limit ? limit : 8;
+  let nPerPage = limit ? parseInt(limit) : 8;
   let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
 
   const result = await Recipe.aggregate([
