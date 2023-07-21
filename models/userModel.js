@@ -21,10 +21,6 @@ const userSchema = new Schema({
     default: "",
   },
   avatar: {},
-
-  // verificationCode: {
-  //   type: String
-  // },
   isValidated: {
     type: Boolean,
     default: false,

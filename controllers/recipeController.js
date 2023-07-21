@@ -108,11 +108,6 @@ const getRecipeByCategory = async (req, res, next) => {
     model: Ingredients,
   });
 
-  // const result = await Recipe.find({ category }).populate({
-  //   path: "ingredients",
-  //   populate: { path: "id", model: Ingredients },
-  // });
-  //
   if (!result[0].data.length) {
     res.status(404).json({
       code: 404,

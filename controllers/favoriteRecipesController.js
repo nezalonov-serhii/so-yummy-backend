@@ -72,10 +72,6 @@ const getFavoriteRecipes = async (req, res, next) => {
     qty: result[0].metadata[0],
   });
 
-  //   res.status(200).json({
-  //     favoriteRecipes,
-  //     data: user.favorites.length ? user.favorites : [],
-  //   });
 };
 
 const removeFavoriteRecipe = async (req, res, next) => {

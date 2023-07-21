@@ -5,7 +5,7 @@ const searchController = require("../../controllers/searchController");
 const {validateBody} = require('../../middlewares/validateBody')
 const schemas = require('../../schemas/validation')
 
-// router.use(bodyParser.json()); // <-- add the JSON parser
+
 router.use(authenticate);
 /**
  * @openapi

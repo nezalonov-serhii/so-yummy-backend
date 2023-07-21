@@ -13,10 +13,6 @@ const recipeSchema = new Schema({
       type: String,
       default: "",
    },
-   // instructions: {
-   //   type: Array,
-   //   required: [true, "Set the instructions"],
-   // },
    instructions: {
       type: Array,
       items: {
@@ -74,30 +70,6 @@ const recipeSchema = new Schema({
 });
 
 module.exports = model("recipes", recipeSchema);
-// ingredients: [
-//     {
-//       id: {
-//         type: Schema.Types.ObjectId,
-//         ref: "ingredients",
-//       },
-//       measure: {
-//         type: String,
-//         required: [true, "Set the measure"],
-//       },
-//     },
-//   ],
-
-// ingredients: [
-//   {
-//     id: {
-//       type: String,
-//     },
-//     measure: {
-//       type: String,
-//       required: [true, "Set the measure"],
-//     },
-//   },
-// ],
 
 /**
  * @openapi

@@ -12,8 +12,6 @@ const getOwnRecipes = async (req, res, next) => {
    let pageNumber = page ? page : 1;
 let nPerPage = limit ? parseInt(limit) : 8;
   let skip = pageNumber > 0 ? (pageNumber - 1) * nPerPage : 0;
-  // const data = await User.findById(_id).populate("ownRecipes", null, Recipe);
-
   const result = await User.aggregate([
     { $match: { _id: _id } },
     { $unwind: "$ownRecipes" },

@@ -133,12 +133,8 @@ router.get('/', authenticate, AuthController.userCurrent);
  *           schema:
  *             type: object
  *             properties:
- *                  name:
+ *                  message:
  *                      type: string
- *                  avatarURL:
- *                      type: string
- *                  avatar:
- *                      type: object
  */
 
 router.patch('/avatars', upload.single("avatar"), authenticate, AuthController.userUpdateAvatar)
