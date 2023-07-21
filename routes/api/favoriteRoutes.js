@@ -107,7 +107,7 @@ router.get('/', favoriteRecepiesController.getFavoriteRecipes)
  *                              properties:
  *                                  message:
  *                                      type: string
- *                                  recipe:
+ *                                  data:
  *                                      type: array
  *                                      items:
  *                                         $ref: "#/components/schemas/Recipe"

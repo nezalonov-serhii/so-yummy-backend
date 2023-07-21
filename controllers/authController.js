@@ -28,24 +28,18 @@ const userRegistration = async (req, res, next) => {
   }
   const hashPassword = await bcrypt.hash(password, 10);
   const avatar = await gravatar.url(email, { s: "200" });
-  //   const verificationCode = await nanoid();
   try {
     const newUser = await User.create({
       ...req.body,
       avatarURL: avatar,
       password: hashPassword,
-      //   verificationCode,
+
     });
     const { id } = newUser;
     const payload = { id: newUser._id };
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
     await User.findByIdAndUpdate(id, { token });
-    // const verifyData = {
-    //   to: newUser.email,
-    //   subject: "Please, confirm your email",
-    //   html: `<p>Please, confirm your email ${newUser.email} by click on <a href="localhost:60000/api/v1/users/verify/${newUser.verificationCode}">this link</a></p>`,
-    // };
-    // sendEmail(verifyData);
+
     res.status(201).json({
       status: "success",
       code: 201,
@@ -94,7 +88,7 @@ const userLogout = async (req, res, next) => {
 
 const userCurrent = async (req, res, next) => {
   const { id } = req.user;
-  const currentUser = await User.findById(id).populate({
+  const currentUser = await User.findById(id, {name: 1, email: 1, avatarURL: 1, token: 1, ownRecipes: 1, shoppingList: 1}).populate({
     path: "ownRecipes",
     populate: { path: "_id", model: Recipe },
   });
@@ -132,7 +126,7 @@ const userUpdateAvatar = async (req, res, next) => {
   });
 
   res.status(200);
-  res.json(`Avatar url is: ${result.hasOwnProperty('url') ? result.url : user.avatarURL}, username is ${updName}`);
+  res.json({message: `Avatar url is: ${result.hasOwnProperty('url') ? result.url : user.avatarURL}, username is ${updName}`});
 };
 
 module.exports = {

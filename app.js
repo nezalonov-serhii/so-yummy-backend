@@ -14,10 +14,7 @@ const searchRouter = require('./routes/api/searchRoutes')
 const ownRecipesRouter = require('./routes/api/ownRecipes')
 const favoriteRouter = require('./routes/api/favoriteRoutes')
 const popularRouter = require("./routes/api/popularRoutes");
-
 const shoppingListRouter = require("./routes/api/shoppingListRouter");
-
-// const shoppingRouter = require("./routes/api/shoppingRouter");
 const subscribeRouter = require('./routes/api/subscribeRoutes')
 
 
