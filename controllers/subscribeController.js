@@ -32,7 +32,7 @@ const { email } = req.body;
 </tr>
 <tr style="margin: 0; padding: 0; font-family: Helvetica Neue, Helvetica, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; cursor: pointer">
   <td class="content-block" style="margin: 0; padding: 0 0 20px; font-family: Helvetica Neue, Helvetica, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top;">
-    <a href="https://so-yummy-two.vercel.app/main" class="btn-primary" style="margin: 0; padding: 0; font-family: Helvetica Neue, Helvetica, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; background-color: #8BAA36; border: solid #8BAA36; border-width: 10px 20px; line-height: 2; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize;">Visit our website for the most delicious recipes</a>
+    <a href="https://nezalonov-serhii.github.io/so-yummy-frontend/main" class="btn-primary" style="margin: 0; padding: 0; font-family: Helvetica Neue, Helvetica, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; background-color: #8BAA36; border: solid #8BAA36; border-width: 10px 20px; line-height: 2; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize;">Visit our website for the most delicious recipes</a>
   </td>
 </tr>`
   };
